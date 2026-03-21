@@ -1017,60 +1017,63 @@ write('src/app/features/dashboard/dashboard.component.scss', `.navbar {
 `);
 
 // ─── README.md ────────────────────────────────────────────────────────────────
-write('README.md', `# Analitycs-ecommerce-client
-
-Frontend Angular 17 para el dashboard de analytics e-commerce.
-
-## Stack
-- **Angular 17** — standalone components
-- **Angular Material 17** — UI components
-- **Chart.js + ng2-charts** — gráficos de crecimiento
-- **TypeScript 5.4**
-
-## Requisitos
-- Node.js >= 18
-- Angular CLI >= 17 (\\`npm install -g @angular/cli\\`)
-- Backend corriendo en \\`http://localhost:3000\\`
-
-## Instalación
-
-\\`\\`\\`bash
-npm install
-ng serve
-\\`\\`\\`
-
-La app corre en \\`http://localhost:4200\\`
-
-## Variables de entorno
-Editá \\`src/environments/environment.ts\\` para apuntar a tu API:
-
-\\`\\`\\`typescript
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
-};
-\\`\\`\\`
-
-## Estructura
-
-\\`\\`\\`
-src/app/
-├── core/
-│   ├── auth/          # AuthService, authGuard, authInterceptor
-│   └── services/      # DashboardService, TenantService
-├── features/
-│   ├── login/         # Pantalla de login
-│   └── dashboard/     # Dashboard principal
-└── shared/
-    └── components/
-        └── metric-card/
-\\`\\`\\`
-
-## Flujo de autenticación
-1. Login con email + tenant ID → el backend devuelve JWT
-2. El \\`authInterceptor\\` agrega \\`Authorization: Bearer <token>\\` y \\`x-tenant-id\\` en cada request
-3. El \\`authGuard\\` protege la ruta \\`/dashboard\\`
-`);
+const t = '`';
+const t3 = '```';
+write('README.md', [
+  '# Analitycs-ecommerce-client',
+  '',
+  'Frontend Angular 17 para el dashboard de analytics e-commerce.',
+  '',
+  '## Stack',
+  '- **Angular 17** — standalone components',
+  '- **Angular Material 17** — UI components',
+  '- **Chart.js + ng2-charts** — gráficos de crecimiento',
+  '- **TypeScript 5.4**',
+  '',
+  '## Requisitos',
+  '- Node.js >= 18',
+  '- Angular CLI >= 17 (' + t + 'npm install -g @angular/cli' + t + ')',
+  '- Backend corriendo en ' + t + 'http://localhost:3000' + t,
+  '',
+  '## Instalación',
+  '',
+  t3 + 'bash',
+  'npm install',
+  'ng serve',
+  t3,
+  '',
+  'La app corre en ' + t + 'http://localhost:4200' + t,
+  '',
+  '## Variables de entorno',
+  'Editá ' + t + 'src/environments/environment.ts' + t + ' para apuntar a tu API:',
+  '',
+  t3 + 'typescript',
+  'export const environment = {',
+  "  production: false,",
+  "  apiUrl: 'http://localhost:3000/api',",
+  '};',
+  t3,
+  '',
+  '## Estructura',
+  '',
+  t3,
+  'src/app/',
+  '├── core/',
+  '│   ├── auth/          # AuthService, authGuard, authInterceptor',
+  '│   └── services/      # DashboardService, TenantService',
+  '├── features/',
+  '│   ├── login/         # Pantalla de login',
+  '│   └── dashboard/     # Dashboard principal',
+  '└── shared/',
+  '    └── components/',
+  '        └── metric-card/',
+  t3,
+  '',
+  '## Flujo de autenticación',
+  '1. Login con email + tenant ID → el backend devuelve JWT',
+  '2. El ' + t + 'authInterceptor' + t + ' agrega ' + t + 'Authorization: Bearer <token>' + t + ' y ' + t + 'x-tenant-id' + t + ' en cada request',
+  '3. El ' + t + 'authGuard' + t + ' protege la ruta ' + t + '/dashboard' + t,
+].join('\n'));
 
 console.log('\\n🎉 Proyecto creado exitosamente.');
 console.log('\\nPróximos pasos:');

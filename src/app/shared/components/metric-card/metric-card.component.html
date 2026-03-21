@@ -1,0 +1,11 @@
+<mat-card class="metric-card metric-card--{{ color }}">
+  <mat-card-content>
+    <div class="metric-card__icon">
+      <mat-icon>{{ icon }}</mat-icon>
+    </div>
+    <div class="metric-card__body">
+      <span class="metric-card__label">{{ label }}</span>
+      <span class="metric-card__value">{{ prefix }}{{ value | number:'1.0-2' }}{{ suffix }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

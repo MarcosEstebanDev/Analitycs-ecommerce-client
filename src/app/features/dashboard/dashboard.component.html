@@ -1,0 +1,153 @@
+<!-- Navbar -->
+<mat-toolbar color="primary" class="navbar">
+  <mat-icon class="navbar__logo">analytics</mat-icon>
+  <span class="navbar__title">Analytics E-commerce</span>
+  <span class="spacer"></span>
+  <span class="navbar__tenant">
+    <mat-icon>business</mat-icon> {{ tenantId }}
+  </span>
+  <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="page-container">
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading-center">
+      <mat-progress-spinner mode="indeterminate" diameter="56" />
+      <p>Cargando dashboard…</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error && !loading) {
+    <mat-card class="error-card">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <p>{{ error }}</p>
+      <button mat-stroked-button (click)="loadAll()">Reintentar</button>
+    </mat-card>
+  }
+
+  <!-- Content -->
+  @if (summary && !loading) {
+    <!-- KPI Cards -->
+    <section class="kpi-grid">
+      <app-metric-card
+        label="Ingresos totales"
+        [value]="summary.metrics.totalRevenue"
+        icon="attach_money"
+        prefix="$"
+        color="primary"
+      />
+      <app-metric-card
+        label="Pedidos"
+        [value]="summary.metrics.totalOrders"
+        icon="shopping_cart"
+        color="accent"
+      />
+      <app-metric-card
+        label="Ticket promedio"
+        [value]="summary.metrics.averageOrderValue"
+        icon="receipt"
+        prefix="$"
+        color="success"
+      />
+      <app-metric-card
+        label="Clientes"
+        [value]="summary.metrics.totalCustomers"
+        icon="people"
+        color="primary"
+      />
+      <app-metric-card
+        label="LTV promedio"
+        [value]="summary.avgLTV"
+        icon="trending_up"
+        prefix="$"
+        color="success"
+      />
+      <app-metric-card
+        label="Alertas críticas"
+        [value]="summary.alerts.critical"
+        icon="warning"
+        color="warn"
+      />
+    </section>
+
+    <!-- Chart -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Crecimiento últimos 6 meses</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="chart-content">
+        <canvas baseChart
+          [data]="growthChartData"
+          [options]="growthChartOptions"
+          type="line">
+        </canvas>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Bottom row -->
+    <div class="bottom-row">
+
+      <!-- Top customers -->
+      <mat-card class="bottom-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>emoji_events</mat-icon> Top Clientes
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="summary.topCustomers" class="full-width">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Cliente</th>
+              <td mat-cell *matCellDef="let c">{{ c.firstName ?? '' }} {{ c.lastName ?? c.email }}</td>
+            </ng-container>
+            <ng-container matColumnDef="totalOrders">
+              <th mat-header-cell *matHeaderCellDef>Pedidos</th>
+              <td mat-cell *matCellDef="let c">{{ c.totalOrders }}</td>
+            </ng-container>
+            <ng-container matColumnDef="lifetimeValue">
+              <th mat-header-cell *matHeaderCellDef>LTV</th>
+              <td mat-cell *matCellDef="let c">${{ c.lifetimeValue | number:'1.0-0' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Anomalies -->
+      <mat-card class="bottom-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>troubleshoot</mat-icon> Anomalías detectadas
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (anomalies.length === 0) {
+            <p class="no-data">
+              <mat-icon color="accent">check_circle</mat-icon>
+              Sin anomalías detectadas
+            </p>
+          }
+          @for (a of anomalies; track a.type) {
+            <div class="anomaly-item">
+              <mat-chip [color]="severityColor(a.severity)" highlighted>
+                {{ a.severity }}
+              </mat-chip>
+              <div class="anomaly-item__text">
+                <strong>{{ a.type }}</strong>
+                <span>{{ a.message }}</span>
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  }
+
+</div>
