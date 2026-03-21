@@ -1,0 +1,142 @@
+<div class="insights-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header__left">
+      <h1 class="page-title">Insights & Alertas</h1>
+      <p class="page-subtitle">Anomalías y oportunidades detectadas automáticamente</p>
+    </div>
+    <div class="page-header__actions">
+      @if (unreadCount > 0) {
+        <button mat-stroked-button (click)="markAllRead()">
+          <mat-icon>done_all</mat-icon> Marcar todo leído
+        </button>
+      }
+      <button mat-flat-button color="primary" (click)="load()">
+        <mat-icon>refresh</mat-icon> Actualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-card stat-card--total">
+      <mat-icon>lightbulb</mat-icon>
+      <div>
+        <span class="stat-value">{{ insights.length }}</span>
+        <span class="stat-label">Total insights</span>
+      </div>
+    </div>
+    <div class="stat-card stat-card--unread">
+      <mat-icon>mark_email_unread</mat-icon>
+      <div>
+        <span class="stat-value">{{ unreadCount }}</span>
+        <span class="stat-label">Sin leer</span>
+      </div>
+    </div>
+    <div class="stat-card stat-card--critical">
+      <mat-icon>error</mat-icon>
+      <div>
+        <span class="stat-value">{{ criticalCount }}</span>
+        <span class="stat-label">Críticos activos</span>
+      </div>
+    </div>
+    <div class="stat-card stat-card--done">
+      <mat-icon>check_circle</mat-icon>
+      <div>
+        <span class="stat-value">{{ insights.length - criticalCount }}</span>
+        <span class="stat-label">Gestionados</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-row">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Estado</mat-label>
+      <mat-select [(ngModel)]="filterStatus">
+        <mat-option value="all">Todos</mat-option>
+        <mat-option value="unread">Sin leer</mat-option>
+        <mat-option value="unactioned">Sin accionar</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Severidad</mat-label>
+      <mat-select [(ngModel)]="filterSeverity">
+        <mat-option value="all">Todas</mat-option>
+        <mat-option value="critical">Crítico</mat-option>
+        <mat-option value="warning">Advertencia</mat-option>
+        <mat-option value="info">Info</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span class="filter-count">{{ filtered.length }} resultado(s)</span>
+  </div>
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading-center">
+      <mat-progress-spinner mode="indeterminate" diameter="48"/>
+    </div>
+  }
+
+  <!-- Empty state -->
+  @if (!loading && filtered.length === 0) {
+    <div class="empty-state">
+      <mat-icon>check_circle_outline</mat-icon>
+      <h3>Todo en orden</h3>
+      <p>No hay insights que coincidan con los filtros seleccionados.</p>
+    </div>
+  }
+
+  <!-- Insights list -->
+  @if (!loading && filtered.length > 0) {
+    <div class="insights-list">
+      @for (insight of filtered; track insight.id) {
+        <div class="insight-card" [class.insight-card--read]="insight.isRead" [class.insight-card--actioned]="insight.isActioned">
+
+          <!-- Left: icon -->
+          <div class="insight-card__icon-wrap" [class]="'severity-bg--' + insight.severity">
+            <mat-icon>{{ iconFor(insight.type) }}</mat-icon>
+          </div>
+
+          <!-- Center: content -->
+          <div class="insight-card__body">
+            <div class="insight-card__meta">
+              <span class="severity-badge" [class]="'severity-badge--' + insight.severity">
+                {{ severityLabel(insight.severity) }}
+              </span>
+              @if (!insight.isRead) {
+                <span class="unread-dot" matTooltip="Sin leer"></span>
+              }
+              @if (insight.isActioned) {
+                <span class="actioned-chip"><mat-icon>check</mat-icon> Accionado</span>
+              }
+              <span class="insight-card__date">{{ insight.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+
+            <h3 class="insight-card__message">{{ insight.message }}</h3>
+            <p class="insight-card__desc">{{ insight.description }}</p>
+          </div>
+
+          <!-- Right: actions -->
+          <div class="insight-card__actions">
+            @if (!insight.isRead) {
+              <button mat-stroked-button (click)="markRead(insight)" matTooltip="Marcar como leído">
+                <mat-icon>mark_email_read</mat-icon>
+              </button>
+            }
+            @if (!insight.isActioned) {
+              <button mat-flat-button color="primary" (click)="markActioned(insight)" matTooltip="Marcar como accionado">
+                <mat-icon>check_circle</mat-icon> Accionar
+              </button>
+            }
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>
