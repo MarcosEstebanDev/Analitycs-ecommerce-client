@@ -32,3 +32,14 @@ body {
 .mat-mdc-card {
   border-radius: 12px !important;
 }
+
+/* ── Snackbar variants ──────────────────────────────────────── */
+.snack-success .mdc-snackbar__surface { background: #16a34a !important; }
+.snack-error   .mdc-snackbar__surface { background: #dc2626 !important; }
+.snack-warn    .mdc-snackbar__surface { background: #d97706 !important; }
+.snack-success .mdc-snackbar__label,
+.snack-error   .mdc-snackbar__label,
+.snack-warn    .mdc-snackbar__label   { color: #fff !important; }
+.snack-success .mat-mdc-snack-bar-action,
+.snack-error   .mat-mdc-snack-bar-action,
+.snack-warn    .mat-mdc-snack-bar-action { color: rgba(255,255,255,.8) !important; }

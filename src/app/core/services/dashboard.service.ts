@@ -107,6 +107,16 @@ export class DashboardService {
   getStores() {
     return this.http.get<{ success: boolean; data: Store[] }>(`${this.base}/stores`);
   }
+
+  getTopProducts() {
+    return this.http.get<{ success: boolean; data: { products: TopProduct[] } }>(`${this.base}/top-products`);
+  }
+}
+
+export interface TopProduct {
+  title: string;
+  totalQty: number;
+  revenue: number;
 }
 
 export interface AnomalyItem {

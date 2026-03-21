@@ -1,0 +1,182 @@
+.page-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: #4f46e5;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+  }
+
+  .export-btn {
+    gap: 6px;
+  }
+}
+
+.filters-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  .search-field {
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .status-field {
+    width: 220px;
+  }
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 64px;
+}
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border-bottom: 1px solid #fecaca;
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
+.orders-table {
+  width: 100%;
+}
+
+.ext-id {
+  font-family: monospace;
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #475569;
+}
+
+.customer-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .customer-name {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 0.9rem;
+  }
+
+  .customer-email {
+    font-size: 0.78rem;
+    color: #64748b;
+  }
+}
+
+.amount {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.table-row:hover {
+  background: #f8fafc;
+}
+
+.no-data {
+  text-align: center;
+  padding: 48px;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+
+  &--gray {
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  &--blue {
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+
+  &--orange {
+    background: #fff7ed;
+    color: #c2410c;
+  }
+
+  &--green {
+    background: #f0fdf4;
+    color: #15803d;
+  }
+
+  &--red {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+
+  &--purple {
+    background: #faf5ff;
+    color: #7e22ce;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .filters-row {
+    flex-direction: column;
+
+    .status-field {
+      width: 100%;
+    }
+  }
+}

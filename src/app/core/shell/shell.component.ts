@@ -49,11 +49,13 @@ export class ShellComponent implements OnInit {
   isHandset$ = this.bp.observe(Breakpoints.Handset).pipe(map((r) => r.matches));
 
   navItems: NavItem[] = [
-    { label: 'Dashboard', icon: 'dashboard',   route: '/dashboard' },
-    { label: 'Insights',  icon: 'lightbulb',   route: '/insights'  },
-    { label: 'Equipo',    icon: 'group',        route: '/team'      },
-    { label: 'Ajustes',   icon: 'settings',     route: '/settings'  },
-    { label: 'Billing',   icon: 'credit_card',  route: '/billing'   },
+    { label: 'Dashboard', icon: 'dashboard',    route: '/dashboard' },
+    { label: 'Órdenes',   icon: 'receipt_long', route: '/orders'    },
+    { label: 'Clientes',  icon: 'people',       route: '/customers' },
+    { label: 'Insights',  icon: 'lightbulb',    route: '/insights'  },
+    { label: 'Equipo',    icon: 'group',         route: '/team'      },
+    { label: 'Ajustes',   icon: 'settings',      route: '/settings'  },
+    { label: 'Billing',   icon: 'credit_card',   route: '/billing'   },
   ];
 
   ngOnInit(): void {
