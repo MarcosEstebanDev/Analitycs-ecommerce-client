@@ -35,15 +35,36 @@ export interface GrowthPoint {
   orders: number;
 }
 
+export interface Insight {
+  id: string;
+  tenantId: string;
+  storeId: string;
+  type: string;
+  severity: 'info' | 'warning' | 'critical';
+  message: string;
+  description: string;
+  isRead: boolean;
+  isActioned: boolean;
+  createdAt: string;
+}
+
+export interface Store {
+  id: string;
+  name: string;
+  provider: string;
+  isActive: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   private http = inject(HttpClient);
   private base = `${environment.apiUrl}/dashboard`;
 
-  getSummary(days = 30) {
+  getSummary(days = 30, storeId?: string) {
+    const params: Record<string, string> = { days: days.toString() };
+    if (storeId) params['storeId'] = storeId;
     return this.http.get<{ success: boolean; data: DashboardSummary }>(
-      `${this.base}/summary`,
-      { params: { days: days.toString() } },
+      `${this.base}/summary`, { params },
     );
   }
 
@@ -65,6 +86,26 @@ export class DashboardService {
     return this.http.get<{ success: boolean; data: { anomalies: AnomalyItem[]; anomalyCount: number } }>(
       `${this.base}/anomalies`,
     );
+  }
+
+  getInsights(storeId?: string) {
+    const params: Record<string, string> = { limit: '20' };
+    if (storeId) params['storeId'] = storeId;
+    return this.http.get<{ success: boolean; data: { insights: Insight[]; total: number } }>(
+      `${this.base}/insights`, { params },
+    );
+  }
+
+  markInsightRead(insightId: string) {
+    return this.http.post<{ success: boolean }>(`${this.base}/insights/${insightId}/read`, {});
+  }
+
+  markInsightActioned(insightId: string) {
+    return this.http.post<{ success: boolean }>(`${this.base}/insights/${insightId}/action`, {});
+  }
+
+  getStores() {
+    return this.http.get<{ success: boolean; data: Store[] }>(`${this.base}/stores`);
   }
 }
 

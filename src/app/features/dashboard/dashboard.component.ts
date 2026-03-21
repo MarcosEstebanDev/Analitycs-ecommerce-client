@@ -8,10 +8,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
 import { FormsModule } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
-import { DashboardService, DashboardSummary, GrowthPoint, AnomalyItem } from '../../core/services/dashboard.service';
+import { DashboardService, DashboardSummary, GrowthPoint, AnomalyItem, Insight, Store } from '../../core/services/dashboard.service';
 import { MetricCardComponent } from '../../shared/components/metric-card/metric-card.component';
 
 interface PeriodOption { label: string; months: number; days: number; }
@@ -30,6 +32,8 @@ interface PeriodOption { label: string; months: number; days: number; }
     MatProgressSpinnerModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatTooltipModule,
+    MatBadgeModule,
     BaseChartDirective,
     MetricCardComponent,
   ],
@@ -44,6 +48,9 @@ export class DashboardComponent implements OnInit {
 
   summary: DashboardSummary | null = null;
   anomalies: AnomalyItem[] = [];
+  insights: Insight[] = [];
+  stores: Store[] = [];
+  selectedStoreId: string | null = null;
 
   // Period selector
   periods: PeriodOption[] = [
@@ -53,7 +60,7 @@ export class DashboardComponent implements OnInit {
     { label: 'Últimos 6 meses',  months: 6,  days: 180 },
     { label: 'Último año',       months: 12, days: 365 },
   ];
-  selectedPeriod: PeriodOption = this.periods[1]; // 30 días por defecto
+  selectedPeriod: PeriodOption = this.periods[1];
 
   // Chart
   growthChartData: ChartData<'line'> = { labels: [], datasets: [] };
@@ -84,22 +91,24 @@ export class DashboardComponent implements OnInit {
   displayedColumns = ['name', 'totalOrders', 'lifetimeValue'];
 
   ngOnInit() {
+    this.dashboard.getStores().subscribe({
+      next: (res) => {
+        this.stores = res.data ?? [];
+      },
+    });
     this.loadAll();
   }
 
-  onPeriodChange() {
-    this.loadAll();
-  }
+  onPeriodChange() { this.loadAll(); }
+  onStoreChange()  { this.loadAll(); }
 
   loadAll() {
     this.loading = true;
     this.error = '';
+    const storeId = this.selectedStoreId ?? undefined;
 
-    this.dashboard.getSummary(this.selectedPeriod.days).subscribe({
-      next: (res) => {
-        this.summary = res.data;
-        this.loading = false;
-      },
+    this.dashboard.getSummary(this.selectedPeriod.days, storeId).subscribe({
+      next: (res) => { this.summary = res.data; this.loading = false; },
       error: (err) => {
         this.error = err?.error?.message ?? 'Error al cargar el dashboard';
         this.loading = false;
@@ -110,9 +119,27 @@ export class DashboardComponent implements OnInit {
       next: (res) => this.buildChart(res.data),
     });
 
-    this.dashboard.getAnomalies().subscribe({
-      next: (res) => (this.anomalies = res.data?.anomalies ?? []),
+    this.dashboard.getInsights(storeId).subscribe({
+      next: (res) => (this.insights = res.data?.insights ?? []),
     });
+  }
+
+  markRead(insight: Insight) {
+    if (insight.isRead) return;
+    this.dashboard.markInsightRead(insight.id).subscribe({
+      next: () => { insight.isRead = true; },
+    });
+  }
+
+  markActioned(insight: Insight) {
+    if (insight.isActioned) return;
+    this.dashboard.markInsightActioned(insight.id).subscribe({
+      next: () => { insight.isActioned = true; },
+    });
+  }
+
+  get unreadCount(): number {
+    return this.insights.filter((i) => !i.isRead).length;
   }
 
   private buildChart(data: GrowthPoint[]) {
@@ -122,8 +149,8 @@ export class DashboardComponent implements OnInit {
         {
           label: 'Ingresos ($)',
           data: data.map((d) => d.revenue),
-          borderColor: '#3949ab',
-          backgroundColor: 'rgba(57,73,171,0.08)',
+          borderColor: '#4f46e5',
+          backgroundColor: 'rgba(79,70,229,0.08)',
           fill: true,
           tension: 0.4,
           yAxisID: 'y',
@@ -131,8 +158,8 @@ export class DashboardComponent implements OnInit {
         {
           label: 'Pedidos',
           data: data.map((d) => d.orders),
-          borderColor: '#00897b',
-          backgroundColor: 'rgba(0,137,123,0.08)',
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16,185,129,0.08)',
           fill: true,
           tension: 0.4,
           yAxisID: 'y1',
@@ -145,8 +172,24 @@ export class DashboardComponent implements OnInit {
     return a?.days === b?.days;
   }
 
-  severityColor(s: string): string {
-    const map: Record<string, string> = { critical: 'warn', high: 'warn', medium: 'accent', low: '' };
-    return map[s] ?? '';
+  insightIcon(type: string): string {
+    const map: Record<string, string> = {
+      customer_growth:   'trending_up',
+      high_aov:          'receipt_long',
+      repeat_customer:   'loyalty',
+      seasonal_trend:    'event_note',
+      revenue_drop:      'trending_down',
+      anomaly:           'troubleshoot',
+    };
+    return map[type] ?? 'lightbulb';
+  }
+
+  insightSeverityClass(severity: string): string {
+    const map: Record<string, string> = {
+      info:     'badge--info',
+      warning:  'badge--warning',
+      critical: 'badge--critical',
+    };
+    return map[severity] ?? 'badge--info';
   }
 }
