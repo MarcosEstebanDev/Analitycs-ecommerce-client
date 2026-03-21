@@ -32,3 +32,44 @@
 .error-banner { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 10px; color: #d32f2f; font-size: 14px; margin-bottom: 20px; }
 .error-banner mat-icon { flex-shrink: 0; }
 .error-banner button { margin-left: auto; }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title { color: #f1f5f9; }
+  .tenant-name { color: #94a3b8; }
+
+  .current-banner {
+    background: #1e1b4b;
+    border-color: #3730a3;
+    color: #a5b4fc;
+  }
+
+  .plan-card {
+    background: #1e293b;
+    border-color: #334155;
+
+    &--current { background: #1e1b4b; }
+  }
+
+  .plan-name { color: #f1f5f9; }
+  .plan-desc { color: #94a3b8; }
+  .price-amount { color: #f1f5f9; }
+  .price-period { color: #94a3b8; }
+
+  .plan-features li { color: #e2e8f0; }
+
+  .plan-icon { background: #1e1b4b; }
+
+  .plan-btn--current {
+    background: #334155 !important;
+    color: #94a3b8 !important;
+  }
+
+  .billing-note { color: #94a3b8; }
+
+  .error-banner {
+    background: #2d1515;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+  }
+}

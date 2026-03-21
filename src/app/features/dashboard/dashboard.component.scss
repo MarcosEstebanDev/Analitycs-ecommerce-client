@@ -230,3 +230,50 @@
 
   mat-icon { font-size: 14px; width: 14px; height: 14px; color: #10b981; }
 }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .dash-title { color: #f1f5f9; }
+
+  .loading-center { color: #94a3b8; }
+
+  .error-card {
+    background: #1e293b !important;
+    border-color: #2d1515 !important;
+  }
+
+  .chart-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    mat-card-title { color: #f1f5f9; }
+  }
+
+  .bottom-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    mat-card-title { color: #f1f5f9; }
+  }
+
+  .no-data { color: #94a3b8; }
+
+  .insight-item {
+    border-bottom-color: #334155;
+  }
+
+  .insight-icon {
+    &--info     { background: #1e1b4b; }
+    &--warning  { background: #2d1b00; }
+    &--critical { background: #2d1515; }
+  }
+
+  .insight-message { color: #f1f5f9; }
+
+  .insight-badge {
+    &.badge--info     { background: #1e1b4b; color: #a5b4fc; }
+    &.badge--warning  { background: #2d1b00; color: #fbbf24; }
+    &.badge--critical { background: #2d1515; color: #fca5a5; }
+  }
+
+  .insight-description { color: #94a3b8; }
+  .insight-done { color: #94a3b8; }
+}

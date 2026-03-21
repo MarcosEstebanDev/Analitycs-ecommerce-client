@@ -248,3 +248,55 @@
 
   mat-icon { font-size: 12px; width: 12px; height: 12px; }
 }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title { color: #f1f5f9; }
+  .page-subtitle { color: #94a3b8; }
+  .filter-count { color: #94a3b8; }
+
+  .stat-card {
+    background: #1e293b;
+    border-color: #334155;
+
+    .stat-value { color: #f1f5f9; }
+    .stat-label { color: #94a3b8; }
+
+    &--total mat-icon    { background: #1e1b4b; }
+    &--unread mat-icon   { background: #0c1a3e; }
+    &--critical mat-icon { background: #2d1515; }
+    &--done mat-icon     { background: #052e16; }
+  }
+
+  .insight-card {
+    background: #1e293b;
+    border-color: #334155;
+
+    &:hover { border-color: #475569; }
+    &--actioned { background: #1e293b; }
+
+    &__message { color: #f1f5f9; }
+    &__desc    { color: #94a3b8; }
+    &__date    { color: #94a3b8; }
+  }
+
+  .severity-bg--critical { background: #2d1515; }
+  .severity-bg--warning  { background: #2d1b00; }
+  .severity-bg--info     { background: #1e1b4b; }
+
+  .severity-badge {
+    &--critical { background: #2d1515; color: #fca5a5; }
+    &--warning  { background: #2d1b00; color: #fbbf24; }
+    &--info     { background: #1e1b4b; color: #a5b4fc; }
+  }
+
+  .empty-state {
+    h3 { color: #e2e8f0; }
+    color: #94a3b8;
+  }
+
+  .actioned-chip {
+    background: #052e16;
+    color: #4ade80;
+  }
+}

@@ -55,6 +55,38 @@
 }
 
 .error-state {
+  display: flex; flex-direction: column; align-items: center; padding: 64px; gap: 12px; color: #9ca3af; text-align: center;
+  mat-icon { font-size: 56px; width: 56px; height: 56px; color: #d1d5db; }
+  p { font-size: 14px; margin: 0; }
+}
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title { color: #f1f5f9; }
+  .page-subtitle { color: #94a3b8; }
+
+  .chart-card, .table-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    mat-card-title { color: #f1f5f9; }
+  }
+
+  .rank-badge {
+    background: #334155;
+    color: #94a3b8;
+  }
+
+  .product-name { color: #e2e8f0; }
+
+  .empty-state {
+    color: #94a3b8;
+    h3 { color: #e2e8f0; }
+  }
+
+  .error-state { color: #94a3b8; }
+}
+
+.error-state {
   display:flex; flex-direction:column; align-items:center; padding:64px; gap:12px; color:#9ca3af; text-align:center;
   mat-icon { font-size:56px; width:56px; height:56px; color:#d1d5db; }
   p { font-size:14px; margin:0; color:#6b7280; }

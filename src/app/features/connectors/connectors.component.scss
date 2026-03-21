@@ -172,3 +172,47 @@
   .summary-strip { grid-template-columns: repeat(2, 1fr); }
   .page-header { flex-direction: column; gap: 12px; }
 }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title {
+    h1 { color: #f1f5f9; }
+    p  { color: #94a3b8; }
+  }
+
+  .error-banner {
+    background: #2d1515;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+  }
+
+  .summary-card {
+    background: #1e293b;
+    .s-value { color: #f1f5f9; }
+    .s-label { color: #94a3b8; }
+  }
+
+  .connector-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  .store-name { color: #f1f5f9; }
+
+  .ext-id {
+    background: #0f172a;
+    color: #94a3b8;
+  }
+
+  .stat {
+    .stat-value { color: #f1f5f9; }
+    .stat-label { color: #94a3b8; }
+  }
+
+  .sync-info {
+    color: #94a3b8;
+    strong { color: #e2e8f0; }
+  }
+
+  .provider-badge { border: 1px solid #334155; }
+}

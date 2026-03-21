@@ -19,3 +19,37 @@
 .status-dot--active { background: #10b981; }
 td.mat-column-email { display: none; }
 th.mat-column-email { display: none; }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title { color: #f1f5f9; }
+
+  .table-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  .empty-state { color: #94a3b8; }
+
+  .avatar {
+    background: #334155;
+    color: #94a3b8;
+
+    &--admin { background: #1e1b4b; color: #a5b4fc; }
+  }
+
+  .user-name  { color: #f1f5f9; }
+  .user-email { color: #94a3b8; }
+
+  .role-badge {
+    background: #334155;
+    color: #94a3b8;
+
+    &--admin { background: #1e1b4b; color: #a5b4fc; }
+  }
+
+  .status-dot {
+    background: #475569;
+    &--active { background: #10b981; }
+  }
+}

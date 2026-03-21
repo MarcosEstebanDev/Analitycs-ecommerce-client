@@ -140,3 +140,24 @@
     }
   }
 }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title h1 { color: #f1f5f9; }
+
+  .table-card { background: #1e293b; }
+
+  .error-banner {
+    background: #2d1515;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+  }
+
+  .email-cell { color: #94a3b8; }
+
+  .ltv-value { color: #34d399; }
+
+  .table-row:hover { background: #263347; }
+
+  .no-data { color: #94a3b8; }
+}

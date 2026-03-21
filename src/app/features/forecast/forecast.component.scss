@@ -198,3 +198,59 @@
     p { font-size: 13px; color: #3f51b5; margin: 0; line-height: 1.5; }
   }
 }
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .page-title {
+    h1 { color: #f1f5f9; }
+    p  { color: #94a3b8; }
+  }
+
+  .loading-center { color: #94a3b8; }
+
+  .error-box {
+    background: #2d1515;
+    border-color: #7f1d1d;
+  }
+
+  .empty-state-page {
+    color: #94a3b8;
+    h3 { color: #94a3b8; }
+  }
+
+  .kpi-card {
+    background: #1e293b !important;
+    .kpi-label { color: #94a3b8; }
+    .kpi-value { color: #f1f5f9; }
+    .kpi-icon-revenue { color: #818cf8; }
+    .kpi-icon-avg     { color: #38bdf8; }
+  }
+
+  .chart-card { background: #1e293b !important; }
+
+  .forecast-table {
+    th, td { border-bottom-color: #334155; }
+
+    thead th {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-bottom-color: #334155;
+    }
+
+    tbody tr:hover td { background: #263347; }
+
+    .revenue { color: #a5b4fc; }
+    .lower   { color: #fca5a5; }
+    .upper   { color: #86efac; }
+  }
+
+  .info-card {
+    background: #0c1a3e;
+    border-color: #334155;
+
+    mat-card-content {
+      strong { color: #e2e8f0; }
+      p { color: #94a3b8; }
+    }
+  }
+}
