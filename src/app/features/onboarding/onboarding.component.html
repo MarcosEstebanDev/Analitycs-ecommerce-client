@@ -1,0 +1,94 @@
+<div class="onboarding-wrapper">
+  <div class="onboarding-container">
+
+    @if (!connected) {
+      <div class="onboarding-header">
+        <div class="logo">
+          <mat-icon>analytics</mat-icon>
+        </div>
+        <h1>¡Bienvenido a Analytics E-commerce!</h1>
+        <p>Conectá tu tienda Shopify para empezar a ver tus métricas en tiempo real.</p>
+      </div>
+
+      <mat-card class="connect-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>shopping_bag</mat-icon>
+            Conectar tienda Shopify
+          </mat-card-title>
+          <mat-card-subtitle>Necesitás un token de acceso de tu panel de Shopify</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="storeForm" (ngSubmit)="connect()">
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dominio de tu tienda</mat-label>
+              <mat-icon matPrefix>link</mat-icon>
+              <input matInput formControlName="shopDomain" placeholder="mi-tienda.myshopify.com" />
+              @if (storeForm.get('shopDomain')?.hasError('required')) {
+                <mat-error>El dominio es requerido</mat-error>
+              }
+              @if (storeForm.get('shopDomain')?.hasError('pattern')) {
+                <mat-error>Formato: mi-tienda.myshopify.com</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Access Token</mat-label>
+              <mat-icon matPrefix>vpn_key</mat-icon>
+              <input matInput type="password" formControlName="accessToken" placeholder="shpat_xxxxx" />
+              @if (storeForm.get('accessToken')?.hasError('required')) {
+                <mat-error>El access token es requerido</mat-error>
+              }
+            </mat-form-field>
+
+            <div class="help-box">
+              <mat-icon>info_outline</mat-icon>
+              <span>
+                Encontrás el token en: <strong>Shopify Admin → Apps → Develop apps → API credentials</strong>
+              </span>
+            </div>
+
+            @if (error) {
+              <div class="connect-error">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ error }}</span>
+              </div>
+            }
+
+            <div class="actions">
+              <button mat-stroked-button type="button" (click)="skip()">
+                Hacer esto después
+              </button>
+              <button
+                mat-flat-button
+                color="primary"
+                type="submit"
+                [disabled]="storeForm.invalid || loading"
+              >
+                @if (loading) {
+                  <mat-progress-spinner diameter="20" mode="indeterminate" />
+                } @else {
+                  Conectar tienda
+                }
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    @if (connected) {
+      <div class="success-state">
+        <div class="success-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <h2>¡Tienda conectada!</h2>
+        <p>Redirigiendo al dashboard...</p>
+        <mat-progress-spinner diameter="40" mode="indeterminate" />
+      </div>
+    }
+
+  </div>
+</div>

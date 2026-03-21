@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/auth.guard';
+import { ShellComponent } from './core/shell/shell.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -9,10 +10,48 @@ export const routes: Routes = [
       import('./features/login/login.component').then((m) => m.LoginComponent),
   },
   {
-    path: 'dashboard',
+    path: 'register',
+    loadComponent: () =>
+      import('./features/register/register.component').then((m) => m.RegisterComponent),
+  },
+  {
+    path: 'onboarding',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
+  },
+  // Authenticated shell — all protected pages render inside ShellComponent
+  {
+    path: '',
+    component: ShellComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
+        path: 'insights',
+        loadComponent: () =>
+          import('./features/insights/insights.component').then((m) => m.InsightsComponent),
+      },
+      {
+        path: 'team',
+        loadComponent: () =>
+          import('./features/team/team.component').then((m) => m.TeamComponent),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
+      },
+      {
+        path: 'billing',
+        loadComponent: () =>
+          import('./features/billing/billing.component').then((m) => m.BillingComponent),
+      },
+    ],
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

@@ -40,8 +40,11 @@ export class DashboardService {
   private http = inject(HttpClient);
   private base = `${environment.apiUrl}/dashboard`;
 
-  getSummary() {
-    return this.http.get<{ success: boolean; data: DashboardSummary }>(`${this.base}/summary`);
+  getSummary(days = 30) {
+    return this.http.get<{ success: boolean; data: DashboardSummary }>(
+      `${this.base}/summary`,
+      { params: { days: days.toString() } },
+    );
   }
 
   getMetrics(days = 30) {

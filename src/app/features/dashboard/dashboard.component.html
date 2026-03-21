@@ -1,17 +1,15 @@
-<!-- Navbar -->
-<mat-toolbar color="primary" class="navbar">
-  <mat-icon class="navbar__logo">analytics</mat-icon>
-  <span class="navbar__title">Analytics E-commerce</span>
-  <span class="spacer"></span>
-  <span class="navbar__tenant">
-    <mat-icon>business</mat-icon> {{ tenantId }}
-  </span>
-  <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
-    <mat-icon>logout</mat-icon>
-  </button>
-</mat-toolbar>
-
-<div class="page-container">
+<!-- Header row: title + period selector -->
+<div class="dash-header">
+  <h1 class="dash-title">Dashboard</h1>
+  <mat-form-field appearance="outline" class="period-select">
+    <mat-label>Período</mat-label>
+    <mat-select [(ngModel)]="selectedPeriod" (ngModelChange)="onPeriodChange()" [compareWith]="comparePeriods">
+      @for (p of periods; track p.days) {
+        <mat-option [value]="p">{{ p.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
 
   <!-- Loading -->
   @if (loading) {
@@ -150,4 +148,3 @@
     </div>
   }
 
-</div>

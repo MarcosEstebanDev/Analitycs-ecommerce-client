@@ -1,26 +1,23 @@
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-
-  &__logo { margin-right: 8px; }
-  &__title { font-size: 18px; font-weight: 700; }
-  &__tenant {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 13px;
-    opacity: 0.85;
-    margin-right: 8px;
-  }
+// Header row
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.spacer { flex: 1; }
+.dash-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
 
-.page-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+.period-select {
+  width: 200px;
+  margin-bottom: -1.25em; // compensate mat-form-field bottom space
 }
 
 .loading-center {

@@ -1,0 +1,63 @@
+<mat-sidenav-container class="shell-container">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────── -->
+  <mat-sidenav #sidenav
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+    class="sidenav">
+
+    <!-- Brand -->
+    <div class="sidenav__brand">
+      <mat-icon class="sidenav__brand-icon">analytics</mat-icon>
+      <span class="sidenav__brand-name">Analytics</span>
+    </div>
+
+    <mat-divider />
+
+    <!-- Nav links -->
+    <mat-nav-list class="sidenav__nav">
+      @for (item of navItems; track item.route) {
+        <a mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="nav-active"
+          (click)="onNavClick()">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+
+    <!-- Footer: tenant info -->
+    <div class="sidenav__footer">
+      <mat-divider />
+      <div class="sidenav__tenant">
+        <mat-icon>business</mat-icon>
+        <span class="sidenav__tenant-id" [matTooltip]="tenantId">{{ tenantId | slice:0:8 }}…</span>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <!-- ── Main content ──────────────────────────────────────────── -->
+  <mat-sidenav-content class="shell-content">
+
+    <!-- Top toolbar -->
+    <mat-toolbar color="primary" class="shell-toolbar">
+      @if (isHandset$ | async) {
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <span class="shell-toolbar__spacer"></span>
+      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- Page content -->
+    <div class="shell-page">
+      <router-outlet />
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

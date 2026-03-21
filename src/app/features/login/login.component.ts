@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,7 @@ import { AuthService } from '../../core/auth/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,7 +37,7 @@ export class LoginComponent {
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    tenantId: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   onSubmit() {
@@ -45,9 +46,9 @@ export class LoginComponent {
     this.loading = true;
     this.error = '';
 
-    const { email, tenantId } = this.form.value;
+    const { email, password } = this.form.value;
 
-    this.auth.login(email!, tenantId!).subscribe({
+    this.auth.login(email!, password!).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err) => {
         this.error = err?.error?.message ?? 'Error al iniciar sesión';
