@@ -1,0 +1,21 @@
+.team-page { }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.page-title { margin: 0; font-size: 24px; font-weight: 700; color: #111827; }
+.page-header button mat-icon { margin-right: 6px; font-size: 18px; width: 18px; height: 18px; }
+.loading-center { display: flex; justify-content: center; padding: 80px 0; }
+.table-card { background: #fff; border: 1px solid #f1f3f5; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
+.full-width { width: 100%; }
+.empty-state { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 60px; color: #9ca3af; }
+.empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; }
+.user-cell { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: #e5e7eb; color: #6b7280; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.avatar--admin { background: #ede9fe; color: #4f46e5; }
+.user-info { display: flex; flex-direction: column; gap: 1px; }
+.user-name { font-size: 13px; font-weight: 600; color: #111827; }
+.user-email { font-size: 12px; color: #9ca3af; }
+.role-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 999px; background: #f3f4f6; color: #6b7280; }
+.role-badge--admin { background: #ede9fe; color: #4f46e5; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d1d5db; margin-right: 6px; vertical-align: middle; }
+.status-dot--active { background: #10b981; }
+td.mat-column-email { display: none; }
+th.mat-column-email { display: none; }
