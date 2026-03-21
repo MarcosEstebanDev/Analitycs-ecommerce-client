@@ -1,12 +1,15 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../auth/auth.service';
+import { UserService, User } from '../services/user.service';
 import { map } from 'rxjs';
 
 export interface NavItem {
@@ -26,18 +29,22 @@ export interface NavItem {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatMenuModule,
+    MatDividerModule,
   ],
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
 })
-export class ShellComponent {
+export class ShellComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   private auth = inject(AuthService);
   private router = inject(Router);
   private bp = inject(BreakpointObserver);
+  private userService = inject(UserService);
 
   tenantId = this.auth.getTenantId() ?? '—';
+  currentUser: User | null = null;
 
   isHandset$ = this.bp.observe(Breakpoints.Handset).pipe(map((r) => r.matches));
 
@@ -48,6 +55,26 @@ export class ShellComponent {
     { label: 'Ajustes',   icon: 'settings',     route: '/settings'  },
     { label: 'Billing',   icon: 'credit_card',  route: '/billing'   },
   ];
+
+  ngOnInit(): void {
+    this.userService.getMe().subscribe({
+      next: (user) => { this.currentUser = user; },
+    });
+  }
+
+  get userInitials(): string {
+    if (!this.currentUser) return '?';
+    const f = (this.currentUser.firstName ?? '').charAt(0).toUpperCase();
+    const l = (this.currentUser.lastName ?? '').charAt(0).toUpperCase();
+    if (f || l) return `${f}${l}`;
+    return this.currentUser.email.charAt(0).toUpperCase();
+  }
+
+  get userDisplayName(): string {
+    if (!this.currentUser) return '';
+    const name = `${this.currentUser.firstName ?? ''} ${this.currentUser.lastName ?? ''}`.trim();
+    return name || this.currentUser.email;
+  }
 
   onNavClick() {
     this.isHandset$.subscribe((h) => { if (h) this.sidenav.close(); }).unsubscribe();

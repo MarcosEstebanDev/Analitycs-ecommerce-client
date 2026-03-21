@@ -30,18 +30,27 @@
       }
     </nav>
 
-    <!-- Footer: tenant info -->
-    <div class="sidenav__footer">
-      <div class="sidenav__tenant">
-        <div class="sidenav__tenant-avatar">
-          {{ tenantId.slice(0,2).toUpperCase() }}
+    <!-- Footer: user info -->
+    <div class="sidenav__footer" [matMenuTriggerFor]="userMenu">
+      <div class="sidenav__user">
+        <div class="sidenav__user-avatar">{{ userInitials }}</div>
+        <div class="sidenav__user-info">
+          <span class="sidenav__user-name">{{ userDisplayName }}</span>
+          <span class="sidenav__user-role">{{ currentUser?.role ?? '' }}</span>
         </div>
-        <div class="sidenav__tenant-info">
-          <span class="sidenav__tenant-label">Tenant ID</span>
-          <span class="sidenav__tenant-id" [matTooltip]="tenantId">{{ tenantId | slice:0:12 }}…</span>
-        </div>
+        <mat-icon class="sidenav__user-chevron">more_vert</mat-icon>
       </div>
     </div>
+
+    <mat-menu #userMenu="matMenu" xPosition="after" yPosition="above">
+      <button mat-menu-item routerLink="/settings">
+        <mat-icon>manage_accounts</mat-icon> Mi perfil
+      </button>
+      <mat-divider/>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon> Cerrar sesión
+      </button>
+    </mat-menu>
   </mat-sidenav>
 
   <!-- ── Main content ──────────────────────────────────────────── -->
@@ -55,9 +64,28 @@
         </button>
       }
       <span class="shell-topbar__spacer"></span>
-      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" class="shell-topbar__logout">
-        <mat-icon>logout</mat-icon>
-      </button>
+
+      <div class="topbar-user" [matMenuTriggerFor]="topbarMenu">
+        <div class="topbar-user__avatar">{{ userInitials }}</div>
+        <div class="topbar-user__info">
+          <span class="topbar-user__name">{{ userDisplayName }}</span>
+          <span class="topbar-user__email">{{ currentUser?.email }}</span>
+        </div>
+        <mat-icon class="topbar-user__chevron">keyboard_arrow_down</mat-icon>
+      </div>
+
+      <mat-menu #topbarMenu="matMenu">
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon>manage_accounts</mat-icon> Mi perfil
+        </button>
+        <button mat-menu-item routerLink="/billing">
+          <mat-icon>credit_card</mat-icon> Billing
+        </button>
+        <mat-divider/>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon> Cerrar sesión
+        </button>
+      </mat-menu>
     </header>
 
     <!-- Page content -->
