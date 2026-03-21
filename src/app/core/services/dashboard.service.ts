@@ -111,6 +111,20 @@ export class DashboardService {
   getTopProducts() {
     return this.http.get<{ success: boolean; data: { products: TopProduct[] } }>(`${this.base}/top-products`);
   }
+
+  getCohortRetention(months = 6) {
+    return this.http.get<{ success: boolean; data: CohortData }>(
+      `${this.base}/cohort-retention`,
+      { params: { months: months.toString() } },
+    );
+  }
+
+  getForecast(days = 30, history = 90) {
+    return this.http.get<{ success: boolean; data: ForecastData }>(
+      `${this.base}/forecast`,
+      { params: { days: days.toString(), history: history.toString() } },
+    );
+  }
 }
 
 export interface TopProduct {
@@ -126,4 +140,28 @@ export interface AnomalyItem {
   value: number;
   baseline: number;
   deviation: number;
+}
+
+export interface CohortRow {
+  cohortMonth: string;
+  size: number;
+  retention: number[];
+}
+
+export interface CohortData {
+  cohorts: CohortRow[];
+  maxPeriods: number;
+}
+
+export interface ForecastPoint {
+  date: string;
+  predictedRevenue: number;
+  lower: number;
+  upper: number;
+}
+
+export interface ForecastData {
+  history: Array<{ date: string; revenue: number }>;
+  forecast: ForecastPoint[];
+  trend: 'up' | 'down' | 'flat';
 }

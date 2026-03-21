@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../core/services/user.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 function passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
   const newPw = group.get('newPassword')?.value;
@@ -50,6 +51,7 @@ export class SettingsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  themeService = inject(ThemeService);
 
   profileForm!: FormGroup;
   passwordForm!: FormGroup;

@@ -6,12 +6,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/auth/auth.service';
 import { environment } from '../../../environments/environment';
+
+type Platform = 'shopify' | 'woocommerce';
 
 @Component({
   selector: 'app-onboarding',
@@ -23,6 +26,7 @@ import { environment } from '../../../environments/environment';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatIconModule,
     MatStepperModule,
@@ -39,38 +43,60 @@ export class OnboardingComponent {
   loading = false;
   error = '';
   connected = false;
+  platform: Platform = 'shopify';
 
-  storeForm = this.fb.group({
+  shopifyForm = this.fb.group({
     shopDomain: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+\.myshopify\.com$/)]],
     accessToken: ['', [Validators.required, Validators.minLength(10)]],
   });
 
+  wooForm = this.fb.group({
+    siteUrl: ['', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]],
+    consumerKey: ['', [Validators.required, Validators.pattern(/^ck_/)]],
+    consumerSecret: ['', [Validators.required, Validators.pattern(/^cs_/)]],
+  });
+
+  selectPlatform(p: Platform) {
+    this.platform = p;
+    this.error = '';
+  }
+
+  get currentFormInvalid(): boolean {
+    return this.platform === 'shopify'
+      ? this.shopifyForm.invalid
+      : this.wooForm.invalid;
+  }
+
   connect() {
-    if (this.storeForm.invalid) return;
+    if (this.currentFormInvalid) return;
 
     this.loading = true;
     this.error = '';
-
-    const { shopDomain, accessToken } = this.storeForm.value;
     const tenantId = this.auth.getTenantId();
 
-    this.http
-      .post(
-        `${environment.apiUrl}/connectors/shopify/connect-store`,
-        { shopDomain, accessToken },
-        { headers: { 'x-tenant-id': tenantId! } },
-      )
-      .subscribe({
-        next: () => {
-          this.connected = true;
-          this.loading = false;
-          setTimeout(() => this.router.navigate(['/dashboard']), 2000);
-        },
-        error: (err) => {
-          this.error = err?.error?.message ?? 'Error al conectar la tienda';
-          this.loading = false;
-        },
-      });
+    const request$ = this.platform === 'shopify'
+      ? this.http.post(
+          `${environment.apiUrl}/connectors/shopify/connect-store`,
+          this.shopifyForm.value,
+          { headers: { 'x-tenant-id': tenantId! } },
+        )
+      : this.http.post(
+          `${environment.apiUrl}/connectors/woo/connect-store`,
+          this.wooForm.value,
+          { headers: { 'x-tenant-id': tenantId! } },
+        );
+
+    request$.subscribe({
+      next: () => {
+        this.connected = true;
+        this.loading = false;
+        setTimeout(() => this.router.navigate(['/dashboard']), 2000);
+      },
+      error: (err) => {
+        this.error = err?.error?.message ?? 'Error al conectar la tienda';
+        this.loading = false;
+      },
+    });
   }
 
   skip() {

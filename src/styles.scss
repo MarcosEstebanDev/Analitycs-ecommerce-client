@@ -43,3 +43,49 @@ body {
 .snack-success .mat-mdc-snack-bar-action,
 .snack-error   .mat-mdc-snack-bar-action,
 .snack-warn    .mat-mdc-snack-bar-action { color: rgba(255,255,255,.8) !important; }
+
+/* ── Dark Theme ─────────────────────────────────────────────── */
+body.dark-theme {
+  background-color: #0f1117;
+  color: #e2e8f0;
+
+  // Material card overrides
+  .mat-mdc-card {
+    background: #1e2130 !important;
+    color: #e2e8f0 !important;
+  }
+
+  .mat-mdc-card-header .mat-mdc-card-title { color: #e2e8f0 !important; }
+  .mat-mdc-card-header .mat-mdc-card-subtitle { color: #94a3b8 !important; }
+
+  // Sidenav
+  .mat-drawer { background: #161b2e !important; }
+  .mat-sidenav-content { background: #0f1117 !important; }
+
+  // Tables
+  .mat-mdc-table { background: #1e2130 !important; }
+  .mat-mdc-row, .mat-mdc-header-row { background: transparent !important; }
+  .mat-mdc-cell, .mat-mdc-header-cell { color: #e2e8f0 !important; border-color: #2d3748 !important; }
+
+  // Form fields
+  .mat-mdc-form-field-flex { background: #2d3748 !important; }
+  .mdc-text-field--filled .mdc-text-field__input { color: #e2e8f0 !important; }
+  .mat-mdc-floating-label { color: #94a3b8 !important; }
+
+  // Topbar
+  .shell-topbar { background: #161b2e !important; border-bottom-color: #2d3748 !important; }
+
+  // Tabs
+  .mat-mdc-tab-body-wrapper { background: #1e2130 !important; }
+  .mat-mdc-tab-group { background: #1e2130 !important; }
+
+  // Page backgrounds used in features
+  .cohort-page, .forecast-page { background: transparent; }
+  .cohort-table thead th { background: #2d3748 !important; color: #e2e8f0 !important; }
+  .cohort-table .cohort-label-col,
+  .cohort-table .size-col { background: #252b3b !important; }
+
+  // Misc
+  .page-header h1 { color: #e2e8f0 !important; }
+  .page-header p  { color: #94a3b8 !important; }
+}

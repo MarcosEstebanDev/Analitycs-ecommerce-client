@@ -67,6 +67,16 @@ export const routes: Routes = [
           import('./features/settings/settings.component').then((m) => m.SettingsComponent),
       },
       {
+        path: 'cohort',
+        loadComponent: () =>
+          import('./features/cohort/cohort.component').then((m) => m.CohortComponent),
+      },
+      {
+        path: 'forecast',
+        loadComponent: () =>
+          import('./features/forecast/forecast.component').then((m) => m.ForecastComponent),
+      },
+      {
         path: 'billing',
         loadComponent: () =>
           import('./features/billing/billing.component').then((m) => m.BillingComponent),

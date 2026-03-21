@@ -57,6 +57,8 @@ export class ShellComponent implements OnInit {
     { label: 'Órdenes',     icon: 'receipt_long', route: '/orders'     },
     { label: 'Clientes',    icon: 'people',        route: '/customers'  },
     { label: 'Productos',   icon: 'inventory_2',   route: '/products'   },
+    { label: 'Cohortes',    icon: 'grid_on',       route: '/cohort'     },
+    { label: 'Pronóstico',  icon: 'insights',      route: '/forecast'   },
     { label: 'Conectores',  icon: 'hub',           route: '/connectors' },
     { label: 'Insights',    icon: 'lightbulb',     route: '/insights'   },
     { label: 'Equipo',      icon: 'group',         route: '/team'       },
