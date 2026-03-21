@@ -153,6 +153,30 @@ body.dark-theme {
   // Form fields
   .mat-mdc-form-field-flex { background: #2d3748 !important; }
   .mdc-text-field--filled .mdc-text-field__input { color: #e2e8f0 !important; }
+
+  // Outline variant input colors
+  .mdc-text-field--outlined .mdc-text-field__input { color: #e2e8f0 !important; }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: #475569 !important;
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__trailing {
+    border-color: #6366f1 !important;
+  }
+  .mat-mdc-text-field-wrapper { background: #1e293b !important; }
+  .mat-mdc-select-value { color: #e2e8f0 !important; }
+  .mat-mdc-select-arrow { color: #94a3b8 !important; }
+  .mat-mdc-option { color: #e2e8f0; background: #1e293b; }
+  .mat-mdc-option:hover { background: #263247 !important; }
+  .mat-mdc-autocomplete-panel { background: #1e293b !important; }
+
+  // Placeholder text
+  input::placeholder,
+  textarea::placeholder { color: #64748b !important; opacity: 1; }
+
   .mat-mdc-floating-label { color: #94a3b8 !important; }
 
   // Topbar

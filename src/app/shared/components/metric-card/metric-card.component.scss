@@ -60,3 +60,18 @@
   &--warn    .metric-card__icon { background: #fee2e2; mat-icon { color: #dc2626; } }
   &--success .metric-card__icon { background: #dbeafe; mat-icon { color: #2563eb; } }
 }
+
+:host-context(.dark-theme) {
+  .metric-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+
+    &__label { color: #94a3b8; }
+    &__value { color: #f1f5f9; }
+
+    &--primary .metric-card__icon { background: #1e1b4b; mat-icon { color: #a5b4fc; } }
+    &--accent  .metric-card__icon { background: #052e16; mat-icon { color: #34d399; } }
+    &--warn    .metric-card__icon { background: #2d1515; mat-icon { color: #f87171; } }
+    &--success .metric-card__icon { background: #0c1a3e; mat-icon { color: #60a5fa; } }
+  }
+}

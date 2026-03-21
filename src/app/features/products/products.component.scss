@@ -1,9 +1,9 @@
-.products-page { display:flex; flex-direction:column; gap:24px; }
+.products-page { max-width: 1100px; display:flex; flex-direction:column; gap:24px; }
 
 .page-header {
   display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;
 }
-.page-title { font-size:22px; font-weight:700; color:#111827; margin:0 0 4px; }
+.page-title { font-size:24px; font-weight:700; color:#111827; margin:0 0 4px; }
 .page-subtitle { font-size:14px; color:#6b7280; margin:0; }
 
 .loading-center { display:flex; justify-content:center; padding:64px; }
@@ -16,11 +16,14 @@
 }
 
 .chart-card, .table-card {
-  border-radius:12px !important;
+  border-radius:16px !important;
   box-shadow:0 1px 4px rgba(0,0,0,.06) !important;
-  border:1px solid #e9ecef !important;
+  border:1px solid #e5e7eb !important;
+  transition: box-shadow 0.15s !important;
 
-  mat-card-title { font-size:15px; font-weight:600; color:#111827; }
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08) !important; }
+
+  mat-card-title { font-size:16px; font-weight:600; color:#111827; }
 }
 
 .chart-wrap { height:320px; padding:8px 0; }

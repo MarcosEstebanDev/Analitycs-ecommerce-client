@@ -1,3 +1,5 @@
+.dash-page { max-width: 1200px; }
+
 // Header row
 .dash-header {
   display: flex;
@@ -61,7 +63,7 @@
 // Chart card
 .chart-card {
   margin-bottom: 24px;
-  border: 1px solid #f1f3f5 !important;
+  border: 1px solid #e5e7eb !important;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
 
   mat-card-header { padding: 20px 20px 0; }
@@ -83,7 +85,7 @@
 }
 
 .bottom-card {
-  border: 1px solid #f1f3f5 !important;
+  border: 1px solid #e5e7eb !important;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
 
   mat-card-header { padding: 20px 20px 0; }

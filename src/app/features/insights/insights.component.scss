@@ -1,4 +1,5 @@
 .insights-page {
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -21,7 +22,7 @@
 }
 
 .page-title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #111827;
   margin: 0 0 4px;
@@ -51,8 +52,10 @@
   padding: 18px 20px;
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  transition: box-shadow 0.15s;
+
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
 
   mat-icon {
     font-size: 28px; width: 28px; height: 28px;
@@ -76,10 +79,10 @@
     margin-top: 3px;
   }
 
-  &--total mat-icon   { background: #ede9fe; color: #6d28d9; }
-  &--unread mat-icon  { background: #dbeafe; color: #1d4ed8; }
-  &--critical mat-icon{ background: #fee2e2; color: #dc2626; }
-  &--done mat-icon    { background: #dcfce7; color: #16a34a; }
+  &--total    { background: #f5f3ff; border: 1px solid #c4b5fd; mat-icon { background: #ede9fe; color: #4f46e5; } }
+  &--unread   { background: #eff6ff; border: 1px solid #bfdbfe; mat-icon { background: #dbeafe; color: #1d4ed8; } }
+  &--critical { background: #fff5f5; border: 1px solid #fecaca; mat-icon { background: #fee2e2; color: #dc2626; } }
+  &--done     { background: #ecfdf5; border: 1px solid #a7f3d0; mat-icon { background: #dcfce7; color: #16a34a; } }
 }
 
 /* Filters */
@@ -136,7 +139,7 @@
   gap: 16px;
   padding: 20px;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   transition: box-shadow 0.15s, border-color 0.15s;
@@ -262,10 +265,10 @@
     .stat-value { color: #f1f5f9; }
     .stat-label { color: #94a3b8; }
 
-    &--total mat-icon    { background: #1e1b4b; }
-    &--unread mat-icon   { background: #0c1a3e; }
-    &--critical mat-icon { background: #2d1515; }
-    &--done mat-icon     { background: #052e16; }
+    &--total    { background: #1e1b4b; border-color: #4338ca; mat-icon { background: #2e2669; } }
+    &--unread   { background: #0c1a3e; border-color: #1e40af; mat-icon { background: #172554; } }
+    &--critical { background: #2d1515; border-color: #991b1b; mat-icon { background: #450a0a; } }
+    &--done     { background: #052e16; border-color: #14532d; mat-icon { background: #052e16; } }
   }
 
   .insight-card {

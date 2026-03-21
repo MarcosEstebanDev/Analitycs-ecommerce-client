@@ -1,7 +1,5 @@
-.page-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+.customers-page {
+  max-width: 1200px;
 }
 
 .page-header {
@@ -24,9 +22,9 @@
 
     h1 {
       margin: 0;
-      font-size: 1.6rem;
+      font-size: 24px;
       font-weight: 600;
-      color: #1e293b;
+      color: #111827;
     }
   }
 
@@ -54,7 +52,8 @@
 .table-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   position: relative;
 }
@@ -128,10 +127,6 @@
 }
 
 @media (max-width: 768px) {
-  .page-container {
-    padding: 16px;
-  }
-
   .filters-row {
     flex-direction: column;
 
@@ -145,7 +140,7 @@
 :host-context(.dark-theme) {
   .page-title h1 { color: #f1f5f9; }
 
-  .table-card { background: #1e293b; }
+  .table-card { background: #1e293b; border-color: #334155; }
 
   .error-banner {
     background: #2d1515;
