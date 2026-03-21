@@ -2,12 +2,9 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDividerModule } from '@angular/material/divider';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs';
@@ -26,12 +23,9 @@ export interface NavItem {
     RouterModule,
     RouterOutlet,
     MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatDividerModule,
   ],
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],

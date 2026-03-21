@@ -8,31 +8,38 @@
 
     <!-- Brand -->
     <div class="sidenav__brand">
-      <mat-icon class="sidenav__brand-icon">analytics</mat-icon>
-      <span class="sidenav__brand-name">Analytics</span>
+      <div class="sidenav__brand-icon-wrap">
+        <mat-icon>analytics</mat-icon>
+      </div>
+      <div>
+        <div class="sidenav__brand-name">Analytics</div>
+        <div class="sidenav__brand-sub">E-commerce</div>
+      </div>
     </div>
 
-    <mat-divider />
-
     <!-- Nav links -->
-    <mat-nav-list class="sidenav__nav">
+    <nav class="sidenav__nav">
       @for (item of navItems; track item.route) {
-        <a mat-list-item
+        <a class="nav-item"
           [routerLink]="item.route"
-          routerLinkActive="nav-active"
+          routerLinkActive="nav-item--active"
           (click)="onNavClick()">
-          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span matListItemTitle>{{ item.label }}</span>
+          <mat-icon class="nav-item__icon">{{ item.icon }}</mat-icon>
+          <span class="nav-item__label">{{ item.label }}</span>
         </a>
       }
-    </mat-nav-list>
+    </nav>
 
     <!-- Footer: tenant info -->
     <div class="sidenav__footer">
-      <mat-divider />
       <div class="sidenav__tenant">
-        <mat-icon>business</mat-icon>
-        <span class="sidenav__tenant-id" [matTooltip]="tenantId">{{ tenantId | slice:0:8 }}…</span>
+        <div class="sidenav__tenant-avatar">
+          {{ tenantId.slice(0,2).toUpperCase() }}
+        </div>
+        <div class="sidenav__tenant-info">
+          <span class="sidenav__tenant-label">Tenant ID</span>
+          <span class="sidenav__tenant-id" [matTooltip]="tenantId">{{ tenantId | slice:0:12 }}…</span>
+        </div>
       </div>
     </div>
   </mat-sidenav>
@@ -40,23 +47,23 @@
   <!-- ── Main content ──────────────────────────────────────────── -->
   <mat-sidenav-content class="shell-content">
 
-    <!-- Top toolbar -->
-    <mat-toolbar color="primary" class="shell-toolbar">
+    <!-- Top bar -->
+    <header class="shell-topbar">
       @if (isHandset$ | async) {
-        <button mat-icon-button (click)="sidenav.toggle()">
+        <button mat-icon-button (click)="sidenav.toggle()" class="shell-topbar__menu">
           <mat-icon>menu</mat-icon>
         </button>
       }
-      <span class="shell-toolbar__spacer"></span>
-      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+      <span class="shell-topbar__spacer"></span>
+      <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión" class="shell-topbar__logout">
         <mat-icon>logout</mat-icon>
       </button>
-    </mat-toolbar>
+    </header>
 
     <!-- Page content -->
-    <div class="shell-page">
+    <main class="shell-page">
       <router-outlet />
-    </div>
+    </main>
 
   </mat-sidenav-content>
 

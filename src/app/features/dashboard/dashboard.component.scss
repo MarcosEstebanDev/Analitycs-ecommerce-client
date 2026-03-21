@@ -3,23 +3,126 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
   gap: 12px;
 }
 
 .dash-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #111827;
 }
 
 .period-select {
   width: 200px;
-  margin-bottom: -1.25em; // compensate mat-form-field bottom space
+  margin-bottom: -1.25em;
 }
 
+// Loading
+.loading-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+  color: #9ca3af;
+}
+
+// Error
+.error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  text-align: center;
+  border: 1px solid #fee2e2 !important;
+}
+
+// KPI grid
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+// Chart card
+.chart-card {
+  margin-bottom: 24px;
+  border: 1px solid #f1f3f5 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+
+  mat-card-header { padding: 20px 20px 0; }
+  mat-card-title  { font-size: 16px !important; font-weight: 600; color: #111827; }
+
+  .chart-content {
+    height: 300px;
+    padding: 12px 16px 16px;
+  }
+}
+
+// Bottom row
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.bottom-card {
+  border: 1px solid #f1f3f5 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+
+  mat-card-header { padding: 20px 20px 0; }
+
+  mat-card-title {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px !important;
+    font-weight: 600;
+    color: #111827;
+
+    mat-icon { font-size: 18px; width: 18px; height: 18px; color: #4f46e5; }
+  }
+}
+
+.full-width { width: 100%; }
+
+// Anomaly items
+.no-data {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9ca3af;
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+.anomaly-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f9fafb;
+
+  &:last-child { border-bottom: none; }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 13px;
+
+    strong { color: #111827; font-weight: 600; }
+    span   { color: #6b7280; }
+  }
+}
 .loading-center {
   display: flex;
   flex-direction: column;

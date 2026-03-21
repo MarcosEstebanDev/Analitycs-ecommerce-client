@@ -1,5 +1,14 @@
 .metric-card {
   height: 100%;
+  border: 1px solid #f1f3f5 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: default;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+    transform: translateY(-1px);
+  }
 
   mat-card-content {
     display: flex;
@@ -14,37 +23,40 @@
     justify-content: center;
     width: 52px;
     height: 52px;
-    border-radius: 12px;
+    border-radius: 14px;
+    flex-shrink: 0;
 
     mat-icon {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
     }
   }
 
   &__body {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   &__label {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6b7280;
+    letter-spacing: 0.06em;
+    color: #9ca3af;
     margin-bottom: 4px;
   }
 
   &__value {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
-    color: #1a1a2e;
+    color: #111827;
+    line-height: 1;
   }
 
-  &--primary .metric-card__icon { background: #e8eaf6; color: #3949ab; }
-  &--accent  .metric-card__icon { background: #e0f7fa; color: #00897b; }
-  &--warn    .metric-card__icon { background: #fce4ec; color: #e53935; }
-  &--success .metric-card__icon { background: #e8f5e9; color: #43a047; }
+  &--primary .metric-card__icon { background: #ede9fe; mat-icon { color: #4f46e5; } }
+  &--accent  .metric-card__icon { background: #d1fae5; mat-icon { color: #059669; } }
+  &--warn    .metric-card__icon { background: #fee2e2; mat-icon { color: #dc2626; } }
+  &--success .metric-card__icon { background: #dbeafe; mat-icon { color: #2563eb; } }
 }
