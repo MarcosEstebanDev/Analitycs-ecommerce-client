@@ -50,7 +50,7 @@
       </mat-card>
 
       <mat-card class="kpi-card">
-        <mat-icon style="color:#3f51b5">attach_money</mat-icon>
+        <mat-icon class="kpi-icon-revenue">attach_money</mat-icon>
         <div>
           <span class="kpi-label">Revenue proyectado ({{ forecastDays }}d)</span>
           <span class="kpi-value">${{ forecastTotal | number:'1.2-2' }}</span>
@@ -58,7 +58,7 @@
       </mat-card>
 
       <mat-card class="kpi-card">
-        <mat-icon style="color:#00bcd4">calendar_today</mat-icon>
+        <mat-icon class="kpi-icon-avg">calendar_today</mat-icon>
         <div>
           <span class="kpi-label">Promedio diario proyectado</span>
           <span class="kpi-value">${{ (forecastTotal / forecastDays) | number:'1.2-2' }}</span>

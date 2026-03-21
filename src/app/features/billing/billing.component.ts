@@ -42,6 +42,7 @@ export class BillingComponent implements OnInit {
   currentPlan = 'growth';
   tenantName = '';
   loading = true;
+  error = '';
   upgrading: string | null = null;
 
   plans: Plan[] = [
@@ -105,7 +106,7 @@ export class BillingComponent implements OnInit {
         this.plans = this.plans.map((p) => ({ ...p, isCurrent: p.id === this.currentPlan }));
         this.loading = false;
       },
-      error: () => { this.loading = false; },
+      error: () => { this.loading = false; this.error = 'No se pudo cargar la información del plan.'; },
     });
   }
 

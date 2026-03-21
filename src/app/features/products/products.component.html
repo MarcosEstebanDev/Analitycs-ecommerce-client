@@ -13,7 +13,15 @@
     <div class="loading-center"><mat-progress-spinner mode="indeterminate" diameter="48"/></div>
   }
 
-  @if (!loading && products.length > 0) {
+  @if (!loading && error) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error }}</p>
+      <button mat-stroked-button color="primary" (click)="load()">Reintentar</button>
+    </div>
+  }
+
+  @if (!loading && !error && products.length > 0) {
     <div class="content-grid">
 
       <!-- Chart card -->
@@ -81,7 +89,7 @@
     </div>
   }
 
-  @if (!loading && products.length === 0) {
+  @if (!loading && !error && products.length === 0) {
     <div class="empty-state">
       <mat-icon>inventory_2</mat-icon>
       <h3>Sin datos de productos</h3>

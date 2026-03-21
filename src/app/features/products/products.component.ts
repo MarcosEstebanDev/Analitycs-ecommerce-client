@@ -27,6 +27,7 @@ export class ProductsComponent implements OnInit {
 
   products: TopProduct[] = [];
   loading = false;
+  error = '';
   displayedColumns = ['rank', 'title', 'revenue', 'qty', 'bar'];
 
   ngOnInit(): void { this.load(); }
@@ -35,7 +36,7 @@ export class ProductsComponent implements OnInit {
     this.loading = true;
     this.svc.getTopProducts().subscribe({
       next: (res) => { this.products = res.data.products; this.loading = false; },
-      error: () => { this.loading = false; },
+      error: () => { this.loading = false; this.error = 'Error al cargar los productos.'; },
     });
   }
 

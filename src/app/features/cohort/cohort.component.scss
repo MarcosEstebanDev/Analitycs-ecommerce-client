@@ -121,6 +121,12 @@
     line-height: 22px;
     text-align: center;
     font-weight: 500;
+
+    &--none { background: #f5f5f5; border: 1px solid #ddd; color: #9e9e9e; }
+    &--low  { background: #e3f2fd; color: #1a237e; }
+    &--mid  { background: #90caf9; color: #1a237e; }
+    &--high { background: #42a5f5; color: #fff; }
+    &--max  { background: #1565c0; color: #fff; }
   }
 }
 

@@ -65,6 +65,9 @@ export class InsightsComponent implements OnInit {
   get criticalCount(): number {
     return this.insights.filter(i => i.severity === 'critical' && !i.isActioned).length;
   }
+  get actionedCount(): number {
+    return this.insights.filter(i => i.isActioned).length;
+  }
 
   markRead(insight: Insight): void {
     if (insight.isRead) return;

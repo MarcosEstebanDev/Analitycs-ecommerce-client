@@ -13,7 +13,15 @@
     </div>
   }
 
-  @if (!loading) {
+  @if (!loading && error) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      {{ error }}
+      <button mat-stroked-button (click)="ngOnInit()">Reintentar</button>
+    </div>
+  }
+
+  @if (!loading && !error) {
     <!-- Current plan banner -->
     <div class="current-banner">
       <mat-icon>check_circle</mat-icon>
