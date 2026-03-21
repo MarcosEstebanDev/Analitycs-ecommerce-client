@@ -1,0 +1,84 @@
+<div class="billing-page">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">Plan & Facturación</h1>
+    @if (tenantName) {
+      <span class="tenant-name">{{ tenantName }}</span>
+    }
+  </div>
+
+  @if (loading) {
+    <div class="loading-center">
+      <mat-progress-spinner mode="indeterminate" diameter="48" />
+    </div>
+  }
+
+  @if (!loading) {
+    <!-- Current plan banner -->
+    <div class="current-banner">
+      <mat-icon>check_circle</mat-icon>
+      <span>Plan actual: <strong>{{ currentPlan | titlecase }}</strong></span>
+    </div>
+
+    <!-- Plans grid -->
+    <div class="plans-grid">
+      @for (plan of plans; track plan.id) {
+        <div class="plan-card" [class.plan-card--highlight]="plan.highlight" [class.plan-card--current]="plan.isCurrent">
+          @if (plan.isCurrent) {
+            <div class="plan-badge plan-badge--current">Plan actual</div>
+          }
+          @if (plan.highlight && !plan.isCurrent) {
+            <div class="plan-badge plan-badge--popular">Más popular</div>
+          }
+
+          <div class="plan-icon">
+            <mat-icon>{{ planIcon(plan.id) }}</mat-icon>
+          </div>
+          <h2 class="plan-name">{{ plan.name }}</h2>
+          <p class="plan-desc">{{ plan.description }}</p>
+
+          <div class="plan-price">
+            @if (plan.price === 0) {
+              <span class="price-amount">Gratis</span>
+            } @else {
+              <span class="price-amount">${{ plan.price }}</span>
+              <span class="price-period">{{ plan.period }}</span>
+            }
+          </div>
+
+          <ul class="plan-features">
+            @for (feature of plan.features; track feature) {
+              <li>
+                <mat-icon class="feature-check">check</mat-icon>
+                {{ feature }}
+              </li>
+            }
+          </ul>
+
+          <button
+            mat-flat-button
+            class="plan-btn"
+            [class.plan-btn--current]="plan.isCurrent"
+            [disabled]="plan.isCurrent || upgrading !== null"
+            (click)="upgrade(plan.id)"
+          >
+            @if (upgrading === plan.id) {
+              <mat-progress-spinner mode="indeterminate" diameter="18" />
+            } @else if (plan.isCurrent) {
+              Plan actual
+            } @else {
+              Cambiar a {{ plan.name }}
+            }
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Info footer -->
+    <p class="billing-note">
+      <mat-icon>info</mat-icon>
+      Los cambios de plan aplican inmediatamente. Podés cancelar cuando quieras.
+      La integración con Stripe estará disponible próximamente.
+    </p>
+  }
+</div>
