@@ -82,7 +82,7 @@
         }
       </button>
 
-      <mat-menu #notifMenu="matMenu" class="notif-menu">
+      <mat-menu #notifMenu="matMenu" panelClass="notif-menu-panel" xPosition="before">
         <div class="notif-header" (click)="$event.stopPropagation()">
           <span>Notificaciones</span>
           <button mat-button (click)="notifService.markAllRead()">Leer todo</button>
