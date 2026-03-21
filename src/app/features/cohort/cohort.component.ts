@@ -47,15 +47,27 @@ export class CohortComponent implements OnInit {
     this.error = '';
     this.dashboard.getCohortRetention(this.months).subscribe({
       next: (res) => {
-        if (res.success) {
+        if (res.success && res.data?.cohorts?.length > 0) {
           this.cohorts = res.data.cohorts;
           this.maxPeriods = res.data.maxPeriods;
+        } else {
+          this.cohorts = [];
+          this.maxPeriods = 0;
+          if (!res.success) {
+            this.error = 'No se pudo obtener los datos de retención. Verificá que el backend esté corriendo.';
+          }
         }
         this.loading = false;
       },
-      error: () => {
-        this.error = 'Error cargando datos de retención';
+      error: (err) => {
         this.loading = false;
+        if (err?.status === 0) {
+          this.error = 'No se puede conectar al servidor. Verificá que el backend esté corriendo.';
+        } else if (err?.status === 404) {
+          this.error = 'Endpoint no encontrado. Actualizá el backend.';
+        } else {
+          this.error = 'Error cargando datos de retención. Intentá de nuevo más tarde.';
+        }
       },
     });
   }

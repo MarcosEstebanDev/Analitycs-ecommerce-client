@@ -29,7 +29,15 @@
     </div>
   }
 
-  @if (!loading && !error) {
+  @if (!loading && !error && cohorts.length === 0) {
+    <div class="empty-state-page">
+      <mat-icon>grid_on</mat-icon>
+      <h3>Sin datos de retención</h3>
+      <p>No hay suficientes órdenes en el período seleccionado para calcular la retención por cohorte. Conectá una tienda y comenzá a recibir pedidos.</p>
+    </div>
+  }
+
+  @if (!loading && !error && cohorts.length > 0) {
     <mat-card class="cohort-card">
       <mat-card-content>
         <div class="legend">

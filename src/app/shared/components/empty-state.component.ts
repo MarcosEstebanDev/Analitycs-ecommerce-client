@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +21,9 @@ import { RouterModule } from '@angular/router';
         </a>
       }
       @if (actionLabel && !actionRoute) {
-        <ng-content/>
+        <button mat-flat-button color="primary" (click)="actionClicked.emit()">
+          <mat-icon>{{ actionIcon }}</mat-icon> {{ actionLabel }}
+        </button>
       }
     </div>
   `,
@@ -49,4 +51,5 @@ export class EmptyStateComponent {
   @Input() actionIcon = 'add';
   @Input() iconColor = '#6366f1';
   @Input() iconBg = '#ede9fe';
+  @Output() actionClicked = new EventEmitter<void>();
 }

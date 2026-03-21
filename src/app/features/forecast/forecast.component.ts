@@ -96,15 +96,25 @@ export class ForecastComponent implements OnInit {
     this.error = '';
     this.dashboard.getForecast(this.forecastDays, 90).subscribe({
       next: (res) => {
-        if (res.success) {
+        if (res.success && res.data?.history?.length > 0) {
           this.data = res.data;
           this.buildChart();
+        } else if (!res.success) {
+          this.data = null;
+          this.error = 'No se pudo obtener el pronóstico. Verificá que el backend esté corriendo.';
         }
         this.loading = false;
       },
-      error: () => {
-        this.error = 'Error cargando pronóstico';
+      error: (err) => {
         this.loading = false;
+        this.data = null;
+        if (err?.status === 0) {
+          this.error = 'No se puede conectar al servidor. Verificá que el backend esté corriendo.';
+        } else if (err?.status === 404) {
+          this.error = 'Endpoint no encontrado. Actualizá el backend.';
+        } else {
+          this.error = 'Error cargando pronóstico. Intentá de nuevo más tarde.';
+        }
       },
     });
   }

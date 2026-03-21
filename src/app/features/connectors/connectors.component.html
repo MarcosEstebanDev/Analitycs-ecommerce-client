@@ -8,10 +8,16 @@
         <p>Estado de sincronización de tus tiendas</p>
       </div>
     </div>
-    <button mat-flat-button color="primary" (click)="load()" [disabled]="loading">
-      <mat-icon>refresh</mat-icon>
-      Actualizar
-    </button>
+    <div class="header-actions">
+      <button mat-flat-button color="primary" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        Nueva conexión
+      </button>
+      <button mat-stroked-button (click)="load()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+    </div>
   </div>
 
   @if (loading) {
@@ -32,11 +38,11 @@
       icon="hub"
       title="Sin conectores configurados"
       description="Conecta tu primera tienda para empezar a importar datos de órdenes, clientes y productos."
-      actionLabel="Conectar tienda"
-      actionRoute="/settings"
+      actionLabel="Agregar conexión"
       actionIcon="add_link"
       iconColor="#6366f1"
       iconBg="#ede9fe"
+      (actionClicked)="openAddDialog()"
     />
   }
 
@@ -119,13 +125,26 @@
               mat-stroked-button
               [color]="c.isActive ? 'warn' : 'primary'"
               (click)="toggle(c)"
-              [disabled]="togglingId === c.id"
+              [disabled]="togglingId === c.id || deletingId === c.id"
             >
               @if (togglingId === c.id) {
                 <mat-spinner diameter="16"></mat-spinner>
               } @else {
                 <mat-icon>{{ c.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
                 {{ c.isActive ? 'Desactivar' : 'Activar' }}
+              }
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              matTooltip="Eliminar conector"
+              (click)="confirmDelete(c)"
+              [disabled]="togglingId === c.id || deletingId === c.id"
+            >
+              @if (deletingId === c.id) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                <mat-icon>delete_outline</mat-icon>
               }
             </button>
           </div>

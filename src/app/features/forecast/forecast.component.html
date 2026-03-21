@@ -29,6 +29,14 @@
     </div>
   }
 
+  @if (!loading && !error && !data) {
+    <div class="empty-state-page">
+      <mat-icon>insights</mat-icon>
+      <h3>Sin datos de pronóstico</h3>
+      <p>No hay suficientes órdenes para calcular una regresión lineal. Conectá una tienda y comenzá a recibir pedidos.</p>
+    </div>
+  }
+
   @if (!loading && !error && data) {
 
     <!-- KPI row -->
