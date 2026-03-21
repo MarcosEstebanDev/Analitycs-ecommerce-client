@@ -277,6 +277,17 @@
 /* ── Notification bell ─────────────────────────────────────── */
 .notif-btn { color: #374151; margin-right: 4px; }
 
+.theme-toggle-btn {
+  color: #374151;
+  margin-right: 4px;
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: #4f46e5;
+    background: rgba(79,70,229,0.08);
+  }
+}
+
 .notif-header {
   display: flex;
   justify-content: space-between;

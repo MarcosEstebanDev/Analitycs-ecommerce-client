@@ -1,167 +1,205 @@
-<div class="settings-container">
-  <mat-tab-group animationDuration="200ms" color="primary">
+<div class="settings-page">
 
-    <!-- Tab 1: Perfil -->
-    <mat-tab label="Perfil">
-      <div class="tab-content">
+  <!-- Page header -->
+  <div class="settings-page-header">
+    <h1 class="settings-title">Ajustes</h1>
+    <p class="settings-subtitle">Gestiona tu perfil, notificaciones y preferencias de alertas</p>
+  </div>
 
-        <div class="spinner-center" *ngIf="loadingProfile">
-          <mat-spinner diameter="40"></mat-spinner>
+  <div class="settings-grid">
+
+    <!-- Card 1: Perfil -->
+    <div class="settings-card" id="card-profile">
+      <div class="card-header">
+        <div class="card-header-icon">
+          <mat-icon>manage_accounts</mat-icon>
         </div>
+        <div>
+          <h2 class="card-title">Información personal</h2>
+          <p class="card-subtitle">Actualiza tu nombre y contraseña</p>
+        </div>
+      </div>
 
-        <ng-container *ngIf="!loadingProfile">
-          <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-            <p class="section-header">Informacion personal</p>
-            <div class="form-row">
-              <mat-form-field appearance="outline" class="field-flex">
-                <mat-label>Nombre</mat-label>
-                <input matInput formControlName="firstName" placeholder="Tu nombre">
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="field-flex">
-                <mat-label>Apellido</mat-label>
-                <input matInput formControlName="lastName" placeholder="Tu apellido">
-              </mat-form-field>
-            </div>
+      <div class="spinner-center" *ngIf="loadingProfile">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <ng-container *ngIf="!loadingProfile">
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="field-flex">
+              <mat-label>Nombre</mat-label>
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <input matInput formControlName="firstName" placeholder="Tu nombre">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="field-flex">
+              <mat-label>Apellido</mat-label>
+              <input matInput formControlName="lastName" placeholder="Tu apellido">
+            </mat-form-field>
+          </div>
+          <div class="action-row">
             <button mat-flat-button color="primary" type="submit" [disabled]="savingProfile">
+              <mat-icon>save</mat-icon>
               {{ savingProfile ? 'Guardando...' : 'Guardar cambios' }}
             </button>
-          </form>
+          </div>
+        </form>
 
-          <mat-divider class="divider"></mat-divider>
+        <mat-divider class="divider"></mat-divider>
 
-          <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-            <p class="section-header">Cambiar contrasena</p>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Contrasena actual</mat-label>
-              <input matInput type="password" formControlName="currentPassword">
-              <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">Requerida</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nueva contrasena</mat-label>
+        <h3 class="section-header">
+          <mat-icon>lock_outline</mat-icon>
+          Cambiar contraseña
+        </h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contraseña actual</mat-label>
+            <input matInput type="password" formControlName="currentPassword">
+            <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">Requerida</mat-error>
+          </mat-form-field>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="field-flex">
+              <mat-label>Nueva contraseña</mat-label>
               <input matInput type="password" formControlName="newPassword">
               <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">Requerida</mat-error>
-              <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">Minimo 6 caracteres</mat-error>
+              <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Confirmar nueva contrasena</mat-label>
+            <mat-form-field appearance="outline" class="field-flex">
+              <mat-label>Confirmar nueva contraseña</mat-label>
               <input matInput type="password" formControlName="confirmNewPassword">
               <mat-error *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmNewPassword')?.touched">
-                Las contrasenas no coinciden
+                Las contraseñas no coinciden
               </mat-error>
             </mat-form-field>
+          </div>
+          <div class="action-row">
             <button mat-flat-button color="primary" type="submit"
               [disabled]="passwordForm.invalid || savingPassword">
-              {{ savingPassword ? 'Actualizando...' : 'Actualizar contrasena' }}
+              <mat-icon>lock_reset</mat-icon>
+              {{ savingPassword ? 'Actualizando...' : 'Actualizar contraseña' }}
             </button>
-          </form>
-        </ng-container>
-      </div>
-    </mat-tab>
-
-    <!-- Tab 2: Apariencia -->
-    <mat-tab label="Apariencia">
-      <div class="tab-content">
-        <p class="section-header">Tema de la interfaz</p>
-        <div class="toggle-row appearance-row">
-          <div class="appearance-label">
-            <mat-icon>{{ (themeService.isDark | async) ? 'dark_mode' : 'light_mode' }}</mat-icon>
-            <div>
-              <strong>{{ (themeService.isDark | async) ? 'Modo oscuro' : 'Modo claro' }}</strong>
-              <span>Cambia entre tema claro y oscuro</span>
-            </div>
           </div>
-          <mat-slide-toggle
-            [checked]="(themeService.isDark | async) ?? false"
-            (change)="themeService.setDark($event.checked)"
-            color="primary"
-          />
+        </form>
+      </ng-container>
+    </div>
+
+    <!-- Card 2: Notificaciones -->
+    <div class="settings-card">
+      <div class="card-header">
+        <div class="card-header-icon card-header-icon--orange">
+          <mat-icon>notifications_active</mat-icon>
         </div>
-        <p class="appearance-hint">Tu preferencia se guarda automáticamente en este dispositivo.</p>
+        <div>
+          <h2 class="card-title">Notificaciones</h2>
+          <p class="card-subtitle">Configura webhooks e integraciones</p>
+        </div>
       </div>
-    </mat-tab>
 
-    <!-- Tab 3: Notificaciones -->
-    <mat-tab label="Notificaciones">
-      <div class="tab-content">
-        <form [formGroup]="notificationsForm" (ngSubmit)="saveNotifications()">
-          <p class="section-header">Integraciones</p>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Webhook URL</mat-label>
-            <input matInput formControlName="webhookUrl" placeholder="https://...">
-            <mat-icon matSuffix>webhook</mat-icon>
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Slack URL</mat-label>
-            <input matInput formControlName="slackUrl" placeholder="https://hooks.slack.com/...">
-            <mat-icon matSuffix>chat</mat-icon>
-          </mat-form-field>
+      <form [formGroup]="notificationsForm" (ngSubmit)="saveNotifications()">
+        <h3 class="section-header">
+          <mat-icon>webhook</mat-icon>
+          Integraciones
+        </h3>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Webhook URL</mat-label>
+          <mat-icon matPrefix>webhook</mat-icon>
+          <input matInput formControlName="webhookUrl" placeholder="https://...">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Slack URL</mat-label>
+          <mat-icon matPrefix>chat</mat-icon>
+          <input matInput formControlName="slackUrl" placeholder="https://hooks.slack.com/...">
+        </mat-form-field>
 
-          <mat-divider class="divider"></mat-divider>
+        <mat-divider class="divider"></mat-divider>
 
-          <p class="section-header">Preferencias</p>
-          <div class="toggle-row">
-            <mat-slide-toggle formControlName="emailNotifications" color="primary">
-              Notificaciones por email
-            </mat-slide-toggle>
+        <h3 class="section-header">
+          <mat-icon>tune</mat-icon>
+          Preferencias
+        </h3>
+        <div class="toggle-item">
+          <div class="toggle-item__info">
+            <mat-icon>email</mat-icon>
+            <div>
+              <strong>Notificaciones por email</strong>
+              <span>Recibe alertas importantes en tu correo</span>
+            </div>
           </div>
+          <mat-slide-toggle formControlName="emailNotifications" color="primary"></mat-slide-toggle>
+        </div>
 
-          <div class="action-row">
-            <button mat-flat-button color="primary" type="submit" [disabled]="savingNotifications">
-              {{ savingNotifications ? 'Guardando...' : 'Guardar notificaciones' }}
-            </button>
-          </div>
-        </form>
+        <div class="action-row">
+          <button mat-flat-button color="primary" type="submit" [disabled]="savingNotifications">
+            <mat-icon>save</mat-icon>
+            {{ savingNotifications ? 'Guardando...' : 'Guardar notificaciones' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Card 3: Umbrales -->
+    <div class="settings-card">
+      <div class="card-header">
+        <div class="card-header-icon card-header-icon--red">
+          <mat-icon>monitoring</mat-icon>
+        </div>
+        <div>
+          <h2 class="card-title">Umbrales de anomalías</h2>
+          <p class="card-subtitle">Define cuándo generar alertas automáticas</p>
+        </div>
       </div>
-    </mat-tab>
 
-    <!-- Tab 3: Umbrales -->
-    <mat-tab label="Umbrales de anomalias">
-      <div class="tab-content">
-        <form [formGroup]="thresholdsForm" (ngSubmit)="saveThresholds()">
-          <p class="section-header">Configuracion de alertas</p>
-
-          <div class="slider-group">
-            <div class="slider-header">
-              <span class="slider-label">Caida de ingresos</span>
-              <span class="slider-val">{{ thresholdsForm.get('revenueDropThreshold')?.value }}%</span>
+      <form [formGroup]="thresholdsForm" (ngSubmit)="saveThresholds()">
+        <div class="slider-group">
+          <div class="slider-header">
+            <div class="slider-label">
+              <mat-icon>trending_down</mat-icon>
+              Caída de ingresos
             </div>
-            <mat-slider min="5" max="50" step="1" color="primary" class="full-slider">
-              <input matSliderThumb formControlName="revenueDropThreshold">
-            </mat-slider>
-            <div class="slider-hints"><span>5%</span><span>50%</span></div>
+            <span class="slider-val">{{ thresholdsForm.get('revenueDropThreshold')?.value }}%</span>
           </div>
+          <mat-slider min="5" max="50" step="1" color="primary" class="full-slider">
+            <input matSliderThumb formControlName="revenueDropThreshold">
+          </mat-slider>
+          <div class="slider-hints"><span>5%</span><span>50%</span></div>
+        </div>
 
-          <div class="slider-group">
-            <div class="slider-header">
-              <span class="slider-label">Caida de ordenes</span>
-              <span class="slider-val">{{ thresholdsForm.get('ordersDropThreshold')?.value }}%</span>
+        <div class="slider-group">
+          <div class="slider-header">
+            <div class="slider-label">
+              <mat-icon>shopping_cart_off</mat-icon>
+              Caída de órdenes
             </div>
-            <mat-slider min="5" max="50" step="1" color="primary" class="full-slider">
-              <input matSliderThumb formControlName="ordersDropThreshold">
-            </mat-slider>
-            <div class="slider-hints"><span>5%</span><span>50%</span></div>
+            <span class="slider-val">{{ thresholdsForm.get('ordersDropThreshold')?.value }}%</span>
           </div>
+          <mat-slider min="5" max="50" step="1" color="primary" class="full-slider">
+            <input matSliderThumb formControlName="ordersDropThreshold">
+          </mat-slider>
+          <div class="slider-hints"><span>5%</span><span>50%</span></div>
+        </div>
 
-          <div class="slider-group">
-            <div class="slider-header">
-              <span class="slider-label">Desviacion de AOV</span>
-              <span class="slider-val">{{ thresholdsForm.get('aovDeviationThreshold')?.value }}%</span>
+        <div class="slider-group">
+          <div class="slider-header">
+            <div class="slider-label">
+              <mat-icon>attach_money</mat-icon>
+              Desviación de AOV
             </div>
-            <mat-slider min="5" max="30" step="1" color="primary" class="full-slider">
-              <input matSliderThumb formControlName="aovDeviationThreshold">
-            </mat-slider>
-            <div class="slider-hints"><span>5%</span><span>30%</span></div>
+            <span class="slider-val">{{ thresholdsForm.get('aovDeviationThreshold')?.value }}%</span>
           </div>
+          <mat-slider min="5" max="30" step="1" color="primary" class="full-slider">
+            <input matSliderThumb formControlName="aovDeviationThreshold">
+          </mat-slider>
+          <div class="slider-hints"><span>5%</span><span>30%</span></div>
+        </div>
 
-          <div class="action-row">
-            <button mat-flat-button color="primary" type="submit" [disabled]="savingThresholds">
-              {{ savingThresholds ? 'Guardando...' : 'Guardar umbrales' }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </mat-tab>
+        <div class="action-row">
+          <button mat-flat-button color="primary" type="submit" [disabled]="savingThresholds">
+            <mat-icon>save</mat-icon>
+            {{ savingThresholds ? 'Guardando...' : 'Guardar umbrales' }}
+          </button>
+        </div>
+      </form>
+    </div>
 
-  </mat-tab-group>
+  </div>
 </div>
-

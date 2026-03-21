@@ -12,9 +12,9 @@ export class ThemeService {
 
   constructor(factory: RendererFactory2) {
     this.renderer = factory.createRenderer(null, null);
+    // Only restore explicitly saved preference — never auto-apply OS dark mode
     const saved = localStorage.getItem(THEME_KEY);
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    this.apply(saved === 'dark' || (saved === null && prefersDark));
+    this.apply(saved === 'dark');
   }
 
   toggle() {
@@ -23,6 +23,10 @@ export class ThemeService {
 
   setDark(dark: boolean) {
     this.apply(dark);
+  }
+
+  get isDarkValue(): boolean {
+    return this.isDark$.value;
   }
 
   get currentTheme(): 'dark' | 'light' {

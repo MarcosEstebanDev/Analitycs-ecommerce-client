@@ -12,6 +12,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../auth/auth.service';
 import { UserService, User } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
+import { ThemeService } from '../services/theme.service';
 import { map } from 'rxjs';
 
 export interface NavItem {
@@ -46,6 +47,7 @@ export class ShellComponent implements OnInit {
   private bp = inject(BreakpointObserver);
   private userService = inject(UserService);
   notifService = inject(NotificationService);
+  themeService = inject(ThemeService);
 
   tenantId = this.auth.getTenantId() ?? '—';
   currentUser: User | null = null;

@@ -65,6 +65,14 @@
       }
       <span class="shell-topbar__spacer"></span>
 
+      <!-- Dark mode toggle -->
+      <button mat-icon-button
+        (click)="themeService.toggle()"
+        [matTooltip]="(themeService.isDark | async) ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+        class="theme-toggle-btn">
+        <mat-icon>{{ (themeService.isDark | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
       <!-- Notification bell -->
       <button mat-icon-button [matMenuTriggerFor]="notifMenu" class="notif-btn">
         @if ((notifService.notifications$ | async)!.length > 0) {

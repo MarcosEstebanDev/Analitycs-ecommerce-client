@@ -8,7 +8,6 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +18,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService } from '../../core/services/user.service';
-import { ThemeService } from '../../core/services/theme.service';
 
 function passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
   const newPw = group.get('newPassword')?.value;
@@ -33,7 +31,6 @@ function passwordMatchValidator(group: AbstractControl): ValidationErrors | null
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -51,7 +48,6 @@ export class SettingsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
-  themeService = inject(ThemeService);
 
   profileForm!: FormGroup;
   passwordForm!: FormGroup;
