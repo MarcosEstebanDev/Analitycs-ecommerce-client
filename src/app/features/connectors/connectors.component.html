@@ -1,0 +1,136 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title">
+      <mat-icon>hub</mat-icon>
+      <div>
+        <h1>Conectores</h1>
+        <p>Estado de sincronización de tus tiendas</p>
+      </div>
+    </div>
+    <button mat-flat-button color="primary" (click)="load()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon>
+      Actualizar
+    </button>
+  </div>
+
+  @if (loading) {
+    <div class="loading-center">
+      <mat-spinner diameter="48"></mat-spinner>
+    </div>
+  }
+
+  @if (error && !loading) {
+    <div class="error-banner">
+      <mat-icon>error_outline</mat-icon>
+      {{ error }}
+    </div>
+  }
+
+  @if (!loading && !error && connectors.length === 0) {
+    <app-empty-state
+      icon="hub"
+      title="Sin conectores configurados"
+      description="Conecta tu primera tienda para empezar a importar datos de órdenes, clientes y productos."
+      actionLabel="Conectar tienda"
+      actionRoute="/settings"
+      actionIcon="add_link"
+      iconColor="#6366f1"
+      iconBg="#ede9fe"
+    />
+  }
+
+  @if (!loading && connectors.length > 0) {
+    <!-- Summary strip -->
+    <div class="summary-strip">
+      <div class="summary-card">
+        <span class="s-value">{{ connectors.length }}</span>
+        <span class="s-label">Total tiendas</span>
+      </div>
+      <div class="summary-card">
+        <span class="s-value synced">{{ syncedCount }}</span>
+        <span class="s-label">Sincronizadas</span>
+      </div>
+      <div class="summary-card">
+        <span class="s-value stale">{{ staleCount }}</span>
+        <span class="s-label">Sin sincronizar</span>
+      </div>
+      <div class="summary-card">
+        <span class="s-value disc">{{ disconnectedCount }}</span>
+        <span class="s-label">Desconectadas</span>
+      </div>
+    </div>
+
+    <!-- Connector cards -->
+    <div class="connector-grid">
+      @for (c of connectors; track c.id) {
+        <div class="connector-card" [class.inactive]="!c.isActive">
+          <!-- Card header -->
+          <div class="card-header">
+            <div class="provider-badge" [style.background]="providerColor(c.provider) + '18'" [style.color]="providerColor(c.provider)">
+              <mat-icon>{{ providerIcon(c.provider) }}</mat-icon>
+              {{ c.provider }}
+            </div>
+            <div class="status-chip" [style.color]="statusColor(c.status)">
+              <mat-icon>{{ statusIcon(c.status) }}</mat-icon>
+              {{ statusLabel(c.status) }}
+            </div>
+          </div>
+
+          <!-- Store name -->
+          <h2 class="store-name">{{ c.name }}</h2>
+          <code class="ext-id">{{ c.externalId }}</code>
+
+          <mat-divider class="my-12"></mat-divider>
+
+          <!-- Stats row -->
+          <div class="stats-row">
+            <div class="stat">
+              <mat-icon>shopping_bag</mat-icon>
+              <div>
+                <span class="stat-value">{{ c.totalOrders | number }}</span>
+                <span class="stat-label">Órdenes</span>
+              </div>
+            </div>
+            <div class="stat">
+              <mat-icon>sync</mat-icon>
+              <div>
+                <span class="stat-value">{{ c.totalOrdersSync | number }}</span>
+                <span class="stat-label">Sincronizadas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Last sync info -->
+          <div class="sync-info">
+            <mat-icon>update</mat-icon>
+            Último sync: <strong>{{ timeAgo(c.lastSyncedAt) }}</strong>
+          </div>
+          @if (c.lastOrderAt) {
+            <div class="sync-info">
+              <mat-icon>receipt_long</mat-icon>
+              Última orden: <strong>{{ timeAgo(c.lastOrderAt) }}</strong>
+            </div>
+          }
+
+          <!-- Actions -->
+          <div class="card-actions">
+            <button
+              mat-stroked-button
+              [color]="c.isActive ? 'warn' : 'primary'"
+              (click)="toggle(c)"
+              [disabled]="togglingId === c.id"
+            >
+              @if (togglingId === c.id) {
+                <mat-spinner diameter="16"></mat-spinner>
+              } @else {
+                <mat-icon>{{ c.isActive ? 'pause_circle' : 'play_circle' }}</mat-icon>
+                {{ c.isActive ? 'Desactivar' : 'Activar' }}
+              }
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

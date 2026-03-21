@@ -65,6 +65,35 @@
       }
       <span class="shell-topbar__spacer"></span>
 
+      <!-- Notification bell -->
+      <button mat-icon-button [matMenuTriggerFor]="notifMenu" class="notif-btn">
+        @if ((notifService.notifications$ | async)!.length > 0) {
+          <mat-icon [matBadge]="notifService.unreadCount || null" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
+        } @else {
+          <mat-icon>notifications_none</mat-icon>
+        }
+      </button>
+
+      <mat-menu #notifMenu="matMenu" class="notif-menu">
+        <div class="notif-header" (click)="$event.stopPropagation()">
+          <span>Notificaciones</span>
+          <button mat-button (click)="notifService.markAllRead()">Leer todo</button>
+        </div>
+        @for (n of (notifService.notifications$ | async) ?? []; track n.id) {
+          <button mat-menu-item class="notif-item" [class.notif-item--unread]="!n.isRead" (click)="notifService.markRead(n.id)">
+            <mat-icon [class]="'severity-icon severity-icon--' + n.severity">
+              {{ n.severity === 'critical' ? 'error' : n.severity === 'warning' ? 'warning' : 'info' }}
+            </mat-icon>
+            <div class="notif-content">
+              <span class="notif-message">{{ n.message }}</span>
+              <span class="notif-time">{{ n.createdAt | date:'dd/MM HH:mm' }}</span>
+            </div>
+          </button>
+        } @empty {
+          <div class="notif-empty">Sin notificaciones nuevas</div>
+        }
+      </mat-menu>
+
       <div class="topbar-user" [matMenuTriggerFor]="topbarMenu">
         <div class="topbar-user__avatar">{{ userInitials }}</div>
         <div class="topbar-user__info">

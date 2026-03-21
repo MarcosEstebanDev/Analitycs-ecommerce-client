@@ -25,29 +25,11 @@ export const routes: Routes = [
     path: '',
     component: ShellComponent,
     canActivate: [authGuard],
-    children: [      {
-        path: 'products',
-        loadComponent: () =>
-          import('./features/products/products.component').then((m) => m.ProductsComponent),
-      },
-      {
-        path: 'orders',
-        loadComponent: () =>
-          import('./features/orders/orders.component').then((m) => m.OrdersComponent),
-      },
-      {
-        path: 'customers',
-        loadComponent: () =>
-          import('./features/customers/customers.component').then((m) => m.CustomersComponent),
-      },
+    children: [
       {
         path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
-      },      {
-        path: 'products',
-        loadComponent: () =>
-          import('./features/products/products.component').then((m) => m.ProductsComponent),
       },
       {
         path: 'orders',
@@ -58,6 +40,16 @@ export const routes: Routes = [
         path: 'customers',
         loadComponent: () =>
           import('./features/customers/customers.component').then((m) => m.CustomersComponent),
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./features/products/products.component').then((m) => m.ProductsComponent),
+      },
+      {
+        path: 'connectors',
+        loadComponent: () =>
+          import('./features/connectors/connectors.component').then((m) => m.ConnectorsComponent),
       },
       {
         path: 'insights',

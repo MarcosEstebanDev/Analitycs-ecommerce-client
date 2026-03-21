@@ -7,9 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../auth/auth.service';
 import { UserService, User } from '../services/user.service';
+import { NotificationService } from '../services/notification.service';
 import { map } from 'rxjs';
 
 export interface NavItem {
@@ -31,6 +33,7 @@ export interface NavItem {
     MatTooltipModule,
     MatMenuModule,
     MatDividerModule,
+    MatBadgeModule,
   ],
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
@@ -42,6 +45,7 @@ export class ShellComponent implements OnInit {
   private router = inject(Router);
   private bp = inject(BreakpointObserver);
   private userService = inject(UserService);
+  notifService = inject(NotificationService);
 
   tenantId = this.auth.getTenantId() ?? '—';
   currentUser: User | null = null;
@@ -49,20 +53,22 @@ export class ShellComponent implements OnInit {
   isHandset$ = this.bp.observe(Breakpoints.Handset).pipe(map((r) => r.matches));
 
   navItems: NavItem[] = [
-    { label: 'Dashboard', icon: 'dashboard',    route: '/dashboard' },
-    { label: 'Órdenes',   icon: 'receipt_long', route: '/orders'    },
-    { label: 'Clientes',  icon: 'people',        route: '/customers' },
-    { label: 'Productos', icon: 'inventory_2',   route: '/products'  },
-    { label: 'Insights',  icon: 'lightbulb',     route: '/insights'  },
-    { label: 'Equipo',    icon: 'group',          route: '/team'      },
-    { label: 'Ajustes',   icon: 'settings',       route: '/settings'  },
-    { label: 'Billing',   icon: 'credit_card',    route: '/billing'   },
+    { label: 'Dashboard',   icon: 'dashboard',    route: '/dashboard'  },
+    { label: 'Órdenes',     icon: 'receipt_long', route: '/orders'     },
+    { label: 'Clientes',    icon: 'people',        route: '/customers'  },
+    { label: 'Productos',   icon: 'inventory_2',   route: '/products'   },
+    { label: 'Conectores',  icon: 'hub',           route: '/connectors' },
+    { label: 'Insights',    icon: 'lightbulb',     route: '/insights'   },
+    { label: 'Equipo',      icon: 'group',         route: '/team'       },
+    { label: 'Ajustes',     icon: 'settings',      route: '/settings'   },
+    { label: 'Billing',     icon: 'credit_card',   route: '/billing'    },
   ];
 
   ngOnInit(): void {
     this.userService.getMe().subscribe({
       next: (user) => { this.currentUser = user; },
     });
+    this.notifService.connect();
   }
 
   get userInitials(): string {
