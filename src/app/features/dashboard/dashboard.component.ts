@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,9 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { FormsModule } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
+import { Subscription } from 'rxjs';
 import { DashboardService, DashboardSummary, GrowthPoint, AnomalyItem, Insight, Store } from '../../core/services/dashboard.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { MetricCardComponent } from '../../shared/components/metric-card/metric-card.component';
 
 interface PeriodOption { label: string; months: number; days: number; }
@@ -40,8 +42,10 @@ interface PeriodOption { label: string; months: number; days: number; }
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private dashboard = inject(DashboardService);
+  private theme     = inject(ThemeService);
+  private subs      = new Subscription();
 
   loading = true;
   error = '';
@@ -64,33 +68,17 @@ export class DashboardComponent implements OnInit {
 
   // Chart
   growthChartData: ChartData<'line'> = { labels: [], datasets: [] };
-  growthChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { position: 'top' } },
-    scales: {
-      y: {
-        type: 'linear',
-        position: 'left',
-        beginAtZero: true,
-        ticks: { callback: (v) => '$' + Number(v).toLocaleString() },
-        grid: { color: 'rgba(0,0,0,0.05)' },
-      },
-      y1: {
-        type: 'linear',
-        position: 'right',
-        beginAtZero: true,
-        grid: { drawOnChartArea: false },
-        ticks: { callback: (v) => v + ' órd.' },
-      },
-    },
-  };
+  growthChartOptions: ChartConfiguration['options'] = this.buildGrowthChartOptions(false);
 
   // Top customers table
   displayedColumns = ['name', 'totalOrders', 'lifetimeValue'];
 
   ngOnInit() {
+    this.subs.add(
+      this.theme.isDark.subscribe((dark) => {
+        this.growthChartOptions = this.buildGrowthChartOptions(dark);
+      }),
+    );
     this.dashboard.getStores().subscribe({
       next: (res) => {
         this.stores = res.data ?? [];
@@ -191,5 +179,52 @@ export class DashboardComponent implements OnInit {
       critical: 'badge--critical',
     };
     return map[severity] ?? 'badge--info';
+  }
+
+  ngOnDestroy() { this.subs.unsubscribe(); }
+
+  private buildGrowthChartOptions(dark: boolean): ChartConfiguration['options'] {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { color: dark ? '#e2e8f0' : '#374151', usePointStyle: true, boxWidth: 10 },
+        },
+        tooltip: {
+          backgroundColor: dark ? '#1e293b' : '#fff',
+          titleColor: dark ? '#f1f5f9' : '#111827',
+          bodyColor: dark ? '#e2e8f0' : '#374151',
+          borderColor: dark ? '#334155' : '#e5e7eb',
+          borderWidth: 1,
+        },
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          ticks: {
+            callback: (v: any) => '$' + Number(v).toLocaleString(),
+            color: dark ? '#94a3b8' : '#6b7280',
+          },
+          grid: { color: dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)' },
+          border: { color: dark ? '#334155' : '#e5e7eb' },
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          grid: { drawOnChartArea: false, color: dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)' },
+          ticks: {
+            callback: (v: any) => v + ' órd.',
+            color: dark ? '#94a3b8' : '#6b7280',
+          },
+          border: { color: dark ? '#334155' : '#e5e7eb' },
+        },
+      },
+    };
   }
 }
