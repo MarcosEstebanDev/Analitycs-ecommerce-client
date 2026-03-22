@@ -366,9 +366,9 @@ body.dark-theme {
   .mat-mdc-option:hover { background: #263247 !important; }
   .mat-mdc-autocomplete-panel { background: #1e293b !important; }
 
-  // Placeholder text
+  // Placeholder text — lighter for legibility on dark inputs
   input::placeholder,
-  textarea::placeholder { color: #64748b !important; opacity: 1; }
+  textarea::placeholder { color: #94a3b8 !important; opacity: 1; }
 
   .mat-mdc-floating-label { color: #94a3b8 !important; }
 
@@ -388,4 +388,49 @@ body.dark-theme {
   // Misc
   .page-header h1 { color: #e2e8f0 !important; }
   .page-header p  { color: #94a3b8 !important; }
+
+  // ── All dialogs dark ──────────────────────────────────────────
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+  }
+  .mat-mdc-dialog-title,
+  [mat-dialog-title] { color: #f1f5f9 !important; }
+  .mat-mdc-dialog-content { color: #e2e8f0 !important; }
+  .mat-mdc-dialog-actions { border-top-color: #334155; }
+
+  // ── mat-stroked-button (no color attr) ───────────────────────
+  .mat-mdc-outlined-button:not([color]):not([disabled]) {
+    color: #cbd5e1 !important;
+    border-color: #475569 !important;
+  }
+  .mat-mdc-outlined-button:not([color]):not([disabled]) .mat-icon { color: #94a3b8 !important; }
+
+  // ── mat-button text buttons (no color attr) ──────────────────
+  .mat-mdc-button:not([color]):not([disabled]) { color: #cbd5e1 !important; }
+
+  // ── mat-button-toggle (period selectors, platform toggle) ────
+  .mat-button-toggle-group,
+  .mat-button-toggle-group-appearance-standard {
+    border-color: #475569 !important;
+  }
+  .mat-button-toggle,
+  .mat-button-toggle-appearance-standard {
+    background: #1e293b !important;
+    color: #94a3b8 !important;
+    border-color: #334155 !important;
+  }
+  .mat-button-toggle-checked,
+  .mat-button-toggle-appearance-standard.mat-button-toggle-checked {
+    background: #1e1b4b !important;
+    color: #a5b4fc !important;
+  }
+  .mat-button-toggle-button   { color: inherit !important; }
+  .mat-button-toggle-label-content { color: inherit !important; }
+  .mat-button-toggle .mat-pseudo-checkbox { border-color: #a5b4fc !important; }
+
+  // ── mat-icon-button (no color attr) ──────────────────────────
+  .mat-mdc-icon-button:not([color]) .mat-icon,
+  .mat-mdc-icon-button:not([color]) mat-icon { color: #94a3b8 !important; }
+  .mat-mdc-icon-button:not([color]):hover .mat-icon { color: #e2e8f0 !important; }
 }
