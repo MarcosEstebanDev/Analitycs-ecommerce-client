@@ -83,22 +83,38 @@
       </button>
 
       <mat-menu #notifMenu="matMenu" panelClass="notif-menu-panel" xPosition="before">
+        <!-- Header -->
         <div class="notif-header" (click)="$event.stopPropagation()">
-          <span>Notificaciones</span>
-          <button mat-button (click)="notifService.markAllRead()">Leer todo</button>
+          <div class="notif-header__left">
+            <mat-icon class="notif-header__icon">notifications</mat-icon>
+            <span class="notif-header__title">Notificaciones</span>
+            @if (notifService.unreadCount > 0) {
+              <span class="notif-count-badge">{{ notifService.unreadCount }}</span>
+            }
+          </div>
+          <button mat-button class="notif-read-btn" (click)="notifService.markAllRead()">Leer todo</button>
         </div>
+        <!-- Items -->
         @for (n of (notifService.notifications$ | async) ?? []; track n.id) {
           <button mat-menu-item class="notif-item" [class.notif-item--unread]="!n.isRead" (click)="notifService.markRead(n.id)">
-            <mat-icon [class]="'severity-icon severity-icon--' + n.severity">
-              {{ n.severity === 'critical' ? 'error' : n.severity === 'warning' ? 'warning' : 'info' }}
-            </mat-icon>
+            <div class="notif-icon-wrap notif-icon-wrap--{{ n.severity }}">
+              <mat-icon class="notif-sev-icon">
+                {{ n.severity === 'critical' ? 'error' : n.severity === 'warning' ? 'warning' : 'info' }}
+              </mat-icon>
+            </div>
             <div class="notif-content">
               <span class="notif-message">{{ n.message }}</span>
-              <span class="notif-time">{{ n.createdAt | date:'dd/MM HH:mm' }}</span>
+              <span class="notif-time">{{ n.createdAt | date:'dd/MM · HH:mm' }}</span>
             </div>
+            @if (!n.isRead) {
+              <span class="notif-unread-dot"></span>
+            }
           </button>
         } @empty {
-          <div class="notif-empty">Sin notificaciones nuevas</div>
+          <div class="notif-empty">
+            <mat-icon class="notif-empty__icon">notifications_none</mat-icon>
+            <p class="notif-empty__text">Sin notificaciones nuevas</p>
+          </div>
         }
       </mat-menu>
 
