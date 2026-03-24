@@ -7,6 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 interface Plan {
@@ -38,6 +39,7 @@ interface Plan {
 export class BillingComponent implements OnInit {
   private http = inject(HttpClient);
   private snack = inject(MatSnackBar);
+  private route = inject(ActivatedRoute);
 
   currentPlan = 'growth';
   tenantName = '';
@@ -97,6 +99,19 @@ export class BillingComponent implements OnInit {
   ];
 
   ngOnInit() {
+    // Handle Stripe redirect callbacks
+    this.route.queryParams.subscribe(params => {
+      if (params['success'] === 'true') {
+        this.snack.open('✅ ¡Plan actualizado con éxito! Bienvenido al nuevo nivel.', 'OK', { duration: 6000 });
+      } else if (params['demo'] === 'true') {
+        this.snack.open(
+          `Demo: redirigirías a Stripe Checkout para el plan ${params['plan'] || ''}. Configurá STRIPE_SECRET_KEY para activarlo.`,
+          'OK',
+          { duration: 7000 },
+        );
+      }
+    });
+
     this.http.get<{ success: boolean; data: { settings: any; plan: string; name: string } }>(
       `${environment.apiUrl}/users/me/tenant-settings`,
     ).subscribe({
@@ -114,15 +129,21 @@ export class BillingComponent implements OnInit {
     if (planId === this.currentPlan) return;
     this.upgrading = planId;
 
-    // Stripe is in dry-run mode — show demo message
-    setTimeout(() => {
-      this.upgrading = null;
-      this.snack.open(
-        `Upgrade a ${planId} — integración con Stripe disponible próximamente.`,
-        'OK',
-        { duration: 4000 },
-      );
-    }, 800);
+    this.http.post<{ success: boolean; data: { url: string; dryRun?: boolean } }>(
+      `${environment.apiUrl}/billing/checkout-session`,
+      { planId },
+    ).subscribe({
+      next: (res) => {
+        this.upgrading = null;
+        // Redirect to Stripe Checkout (or demo URL in dry-run)
+        window.location.href = res.data.url;
+      },
+      error: (err) => {
+        this.upgrading = null;
+        const msg = err?.error?.message || 'Error al iniciar el checkout.';
+        this.snack.open(msg, 'OK', { duration: 5000 });
+      },
+    });
   }
 
   planIcon(planId: string): string {
