@@ -18,7 +18,7 @@ import { DashboardService, DashboardSummary, GrowthPoint, AnomalyItem, Insight, 
 import { ThemeService } from '../../core/services/theme.service';
 import { MetricCardComponent } from '../../shared/components/metric-card/metric-card.component';
 
-interface PeriodOption { label: string; months: number; days: number; }
+interface PeriodOption { label: string; months: number; days: number; granularity: 'day' | 'week' | 'month'; chartTitle: string; }
 
 @Component({
   selector: 'app-dashboard',
@@ -58,11 +58,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Period selector
   periods: PeriodOption[] = [
-    { label: 'Últimos 7 días',   months: 1,  days: 7   },
-    { label: 'Últimos 30 días',  months: 1,  days: 30  },
-    { label: 'Últimos 90 días',  months: 3,  days: 90  },
-    { label: 'Últimos 6 meses',  months: 6,  days: 180 },
-    { label: 'Último año',       months: 12, days: 365 },
+    { label: 'Últimos 7 días',   months: 1,  days: 7,   granularity: 'day',   chartTitle: 'Movimiento últimos 7 días'   },
+    { label: 'Últimos 30 días',  months: 1,  days: 30,  granularity: 'day',   chartTitle: 'Movimiento últimos 30 días'  },
+    { label: 'Últimos 90 días',  months: 3,  days: 90,  granularity: 'week',  chartTitle: 'Crecimiento últimos 90 días' },
+    { label: 'Últimos 6 meses',  months: 6,  days: 180, granularity: 'month', chartTitle: 'Crecimiento últimos 6 meses' },
+    { label: 'Último año',       months: 12, days: 365, granularity: 'month', chartTitle: 'Crecimiento último año'      },
   ];
   selectedPeriod: PeriodOption = this.periods[1];
 
@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.dashboard.getGrowth(this.selectedPeriod.months).subscribe({
+    this.dashboard.getGrowth(this.selectedPeriod.days, this.selectedPeriod.granularity).subscribe({
       next: (res) => this.buildChart(res.data),
     });
 

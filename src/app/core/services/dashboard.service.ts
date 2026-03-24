@@ -75,10 +75,10 @@ export class DashboardService {
     );
   }
 
-  getGrowth(months = 6) {
+  getGrowth(days = 180, granularity: 'day' | 'week' | 'month' = 'month') {
     return this.http.get<{ success: boolean; data: GrowthPoint[] }>(
       `${this.base}/growth`,
-      { params: { months: months.toString() } },
+      { params: { days: days.toString(), granularity } },
     );
   }
 
